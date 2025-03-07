@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import Link from "next/link";
 
 // * Schema for validation
 const formSchema = z.object({
@@ -181,6 +182,14 @@ export default function RegisterPage() {
               >
                 {form.formState.isSubmitting ? "Registering..." : "Register"}
               </Button>
+
+              {/* Login Link */}
+              <div className="text-center">
+                Already have an account?{" "}
+                <Link href="/login" className="text-blue-500 hover:underline">
+                  Login
+                </Link>
+              </div>
             </form>
           </Form>
         </CardContent>

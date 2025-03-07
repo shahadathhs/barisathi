@@ -29,10 +29,9 @@ export const middleware = async (request: NextRequest) => {
   const user = await getUserFromToken();
   if (!user) {
     const loginUrl = new URL(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/login`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/login?redirectPath=${pathname}`,
       request.url
     );
-    loginUrl.searchParams.set("redirectPath", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
