@@ -14,7 +14,7 @@ export interface TJwtPayload {
 export interface IRegister {
   name: string;
   email: string;
-  phone: number;
+  phone: string;
   password: string;
   role: string;
 }
@@ -39,8 +39,8 @@ export const registerUser = async (userData: IRegister) => {
     const result = await res.json();
     return result;
   } catch (error: any) {
-    console.error("Error registering user:", error.message);
-    throw new Error(error.message);
+    console.error("Error registering user:", error);
+    Error(error.message);
   }
 };
 
@@ -63,7 +63,8 @@ export const loginUser = async (userData: ILogin) => {
     }
     return result;
   } catch (error: any) {
-    throw new Error(error.message);
+    console.error("Error logging in:", error);
+    Error(error.message);
   }
 };
 
@@ -78,7 +79,9 @@ export const logout = async () => {
   (await cookies()).delete("user");
 };
 
-export const getDecodedToken = (token: string): TJwtPayload | null => {
+export const getDecodedToken = async (
+  token: string
+): Promise<TJwtPayload | null> => {
   try {
     const decoded = jwtDecode<TJwtPayload>(token);
     return decoded;
@@ -88,8 +91,8 @@ export const getDecodedToken = (token: string): TJwtPayload | null => {
   }
 };
 
-export const isTokenExpired = (token: string): boolean => {
-  const decoded = getDecodedToken(token);
+export const isTokenExpired = async (token: string): Promise<boolean> => {
+  const decoded = await getDecodedToken(token);
   if (!decoded) return true;
   const currentTime = Date.now() / 1000; // convert milliseconds to seconds
   return decoded.exp < currentTime;
@@ -98,9 +101,9 @@ export const isTokenExpired = (token: string): boolean => {
 export const getUserFromToken = async (): Promise<TJwtPayload | null> => {
   const token = (await cookies()).get("token")?.value;
   if (!token) return null;
-  const decoded = getDecodedToken(token);
+  const decoded = await getDecodedToken(token);
   if (!decoded) return null;
-  if (isTokenExpired(token)) return null;
+  if (await isTokenExpired(token)) return null;
   return decoded;
 };
 
