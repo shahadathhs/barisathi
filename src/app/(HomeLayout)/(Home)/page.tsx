@@ -1,17 +1,17 @@
-import { AnimatedTestimonialsDemo } from "@/components/sections/AnimatedTestimonialsDemo";
+// import { AnimatedTestimonialsDemo } from "@/components/sections/AnimatedTestimonialsDemo";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <div>
+    <div className="flex flex-col gap-96">
       <Button>Click me</Button>
-      <AnimatedTestimonialsDemo />
+      {/* <AnimatedTestimonialsDemo /> */}
       <Button>Click me</Button>
-      <AnimatedTestimonialsDemo />
+      {/* <AnimatedTestimonialsDemo /> */}
       <Button>Click me</Button>
-      <AnimatedTestimonialsDemo />
+      {/* <AnimatedTestimonialsDemo /> */}
       <Button>Click me</Button>
-      <AnimatedTestimonialsDemo />
+      {/* <AnimatedTestimonialsDemo /> */}
     </div>
   );
 }
