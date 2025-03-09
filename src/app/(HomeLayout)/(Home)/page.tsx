@@ -6,6 +6,12 @@ export default function Home() {
     <div>
       <Button>Click me</Button>
       <AnimatedTestimonialsDemo />
+      <Button>Click me</Button>
+      <AnimatedTestimonialsDemo />
+      <Button>Click me</Button>
+      <AnimatedTestimonialsDemo />
+      <Button>Click me</Button>
+      <AnimatedTestimonialsDemo />
     </div>
   );
 }

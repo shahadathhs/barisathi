@@ -1,3 +1,4 @@
+import Navbar from '@/components/shared/Navbar';
 import React from 'react'
 
 export default function HomeLayout({
@@ -7,7 +8,7 @@ export default function HomeLayout({
 }>) {
   return (
     <div>
-      <nav>Nav</nav>
+      <Navbar />
       <main>{children}</main>
       <footer>Footer</footer>
     </div>
