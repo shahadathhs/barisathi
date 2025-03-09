@@ -5,7 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "@/assets/logo.png";
 import { getCurrentUser, IUser, logout } from "@/services/auth.service";
-import { ActiveLink } from "@/components/shared/nav/ActiveLink";
+import { ActiveLink } from "@/components/shared/nav/utils/ActiveLink";
+import {
+  authLinks,
+  dashboardLinks,
+  navLinks,
+} from "@/constant/navigationLinks";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -34,7 +39,7 @@ export default function Navbar() {
     window.location.href = "/";
   };
 
-  // Sticky navbar with smooth transition and rounded border.
+  // Sticky navbar with smooth transition, rounded border, and slight scale on scroll.
   const navClasses = `sticky top-4 z-50 bg-white transition-all transform ease-in-out duration-500 border rounded-md p-4 m-4 ${
     scrolled ? "scale-90" : ""
   }`;
@@ -54,14 +59,20 @@ export default function Navbar() {
 
         {/* Navigation Links */}
         <div className="flex items-center space-x-6">
-          <ActiveLink href="/">Home</ActiveLink>
-          <ActiveLink href="/about-us">About Us</ActiveLink>
-          <ActiveLink href="/listings">Listings</ActiveLink>
+          {navLinks.map((link) => (
+            <ActiveLink key={link.link} href={link.link}>
+              {link.title}
+            </ActiveLink>
+          ))}
 
           {/* Conditional links based on login status */}
           {user ? (
             <>
-              <ActiveLink href="/dashboard">Dashboard</ActiveLink>
+              {dashboardLinks.map((link) => (
+                <ActiveLink key={link.link} href={link.link}>
+                  {link.title}
+                </ActiveLink>
+              ))}
               <button
                 onClick={handleLogout}
                 className="text-sm text-blue-600 hover:underline transition-colors duration-300"
@@ -71,8 +82,11 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <ActiveLink href="/login">Login</ActiveLink>
-              <ActiveLink href="/register">Register</ActiveLink>
+              {authLinks.map((link) => (
+                <ActiveLink key={link.link} href={link.link}>
+                  {link.title}
+                </ActiveLink>
+              ))}
             </>
           )}
         </div>
