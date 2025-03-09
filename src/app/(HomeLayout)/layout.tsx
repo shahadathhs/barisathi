@@ -1,4 +1,4 @@
-import Navbar from '@/components/shared/Navbar';
+import Navbar from '@/components/shared/nav/Navbar';
 import React from 'react'
 
 export default function HomeLayout({
