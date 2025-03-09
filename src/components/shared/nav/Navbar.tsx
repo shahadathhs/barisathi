@@ -63,7 +63,9 @@ export default function Navbar() {
         <Link href="/">
           <div className="flex items-center space-x-2 cursor-pointer">
             <Image src={logo} alt="Logo" width={60} height={60} />
-            <span className="text-xl font-bold text-primary italic">BARISATHI</span>
+            <span className="text-xl font-bold text-primary italic">
+              BARISATHI
+            </span>
           </div>
         </Link>
 
@@ -103,7 +105,11 @@ export default function Navbar() {
         )}
 
         {/* Mobile Navigation: Render dropdown for mobile devices */}
-        {isMobile && <MobileNavDropdown />}
+        {isMobile && (
+          <div>
+            <MobileNavDropdown />
+          </div>
+        )}
       </div>
     </nav>
   );

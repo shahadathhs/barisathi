@@ -5,9 +5,9 @@ import { useState, useRef, useEffect } from "react";
 import { ActiveLink } from "./ActiveLink";
 import { getCurrentUser, IUser, logout } from "@/services/auth.service";
 import {
+  navLinks,
   authLinks,
   dashboardLinks,
-  navLinks,
 } from "@/constant/navigationLinks";
 
 export const MobileNavDropdown = () => {
@@ -17,7 +17,7 @@ export const MobileNavDropdown = () => {
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [user, setUser] = useState<IUser | null>(null);
 
-  // Fetch user info from local storage or your service.
+  // Fetch user info.
   useEffect(() => {
     const fetchUser = async () => {
       const currentUser = await getCurrentUser();
@@ -26,13 +26,13 @@ export const MobileNavDropdown = () => {
     fetchUser();
   }, []);
 
-  // Update dropdown position.
+  // Update dropdown position based on button's viewport position.
   const updateDropdownPosition = () => {
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
       setDropdownPosition({
-        top: rect.bottom + window.scrollY, // below the button
-        left: rect.left + window.scrollX - 80,
+        top: rect.bottom + 4, // 4px below the button
+        left: rect.left - 80, // adjust horizontal offset as needed
       });
     }
   };
@@ -43,7 +43,7 @@ export const MobileNavDropdown = () => {
     setShowDropDown((prev) => !prev);
   };
 
-  // Close dropdown if clicking outside.
+  // Close dropdown when clicking outside.
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -68,7 +68,7 @@ export const MobileNavDropdown = () => {
   };
 
   return (
-    <>
+    <div className="relative">
       {/* Dropdown Toggle Button */}
       <button
         ref={buttonRef}
@@ -102,11 +102,11 @@ export const MobileNavDropdown = () => {
         <div
           ref={dropdownRef}
           style={{
-            position: "absolute",
+            position: "fixed", // use fixed positioning to ignore parent's transforms
             top: `${dropdownPosition.top}px`,
             left: `${dropdownPosition.left}px`,
           }}
-          className="w-[150px] bg-white border border-gray-200 shadow-lg z-50 rounded-md mt-2 transition-all duration-300"
+          className="w-[150px] bg-white border border-gray-200 shadow-lg z-50 rounded-md transition-all duration-300"
         >
           {navLinks.map((link) => (
             <ActiveLink
@@ -149,6 +149,6 @@ export const MobileNavDropdown = () => {
           )}
         </div>
       )}
-    </>
+    </div>
   );
 };

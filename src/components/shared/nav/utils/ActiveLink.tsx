@@ -23,7 +23,7 @@ export function ActiveLink({
       href={href}
       className={`text-sm transition-colors duration-300 ${
         isActive
-          ? "font-semibold text-primary border-b-2 border-primary"
+          ? "font-semibold text-primary border-primary"
           : "text-gray-700 hover:text-primary"
       } ${extraClasses}`}
     >
