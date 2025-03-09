@@ -24,6 +24,14 @@ export interface ILogin {
   password: string;
 }
 
+export interface IUser {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+}
+
 export const registerUser = async (userData: IRegister) => {
   try {
     const res = await fetch(
