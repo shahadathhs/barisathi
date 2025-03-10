@@ -20,31 +20,38 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // * send email using mailgun
+    const formData = new URLSearchParams();
+    formData.append(
+      "from",
+      `Contact Form <noreply@${process.env.NEXT_PUBLIC_MAILGUN_DOMAIN}>`
+    );
+    formData.append("to", process.env.NEXT_PUBLIC_MAILGUN_EMAIL as string);
+    formData.append("subject", "Contact Form Submission");
+    formData.append(
+      "text",
+      `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
+    );
+
     const res = await fetch(
-      `https://api.mailgun.net/v3/${process.env.MAILGUN_DOMAIN}/messages`,
+      `https://api.mailgun.net/v3/${process.env.NEXT_PUBLIC_MAILGUN_DOMAIN}/messages`,
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Basic ${Buffer.from(
-            `api:${process.env.MAILGUN_API_KEY}`
+            `api:${process.env.NEXT_PUBLIC_MAILGUN_API_KEY}`
           ).toString("base64")}`,
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify({
-          from: `Contact Form <${process.env.MAILGUN_EMAIL}>`,
-          to: "jSfIv@example.com",
-          subject: "Contact Form Submission",
-          text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
-        }),
+        body: formData.toString(),
       }
     );
+
     const data = await res.json();
     if (res.ok) {
       return NextResponse.json({ success: true, message: "Email sent", data });
     } else {
       return NextResponse.json(
-        { success: false, message: "Failed to send email" },
+        { success: false, message: "Failed to send email", error: data },
         { status: 500 }
       );
     }

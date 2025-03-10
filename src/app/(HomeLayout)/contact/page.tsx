@@ -31,42 +31,31 @@ export default function ContactPage() {
       });
       const result = await response.json();
       setLoading(false);
-      if (result.success) {
-        toast("Thank you for reaching out! We will get back to you soon.", {
-          description: "We will get back to you soon.",
-          position: "top-right",
-          duration: 5000,
-          icon: "🎉",
-        });
-        reset();
-      } else {
-        toast.error("Something went wrong. Please try again later.", {
-          position: "top-right",
-          duration: 5000,
-          icon: "🚨",
-        });
-      }
       return result;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       setLoading(false);
       console.error("Error sending email:", error);
-      toast.error("Something went wrong. Please try again later.", {
-        position: "top-right",
-        duration: 5000,
-        icon: "🚨",
-      });
       return { success: false, message: "Something went wrong" };
     }
   };
 
   const onSubmit = async (data: ContactFormData) => {
     const result = await sendContactEmail(data);
-    if (result?.success) {
-      alert("Thank you for reaching out! We will get back to you soon.");
+    if (result.success) {
+      toast("Thank you for reaching out! We will get back to you soon.", {
+        description: "We will get back to you soon.",
+        position: "top-right",
+        duration: 5000,
+        icon: "🎉",
+      });
       reset();
     } else {
-      alert(result?.message || "Something went wrong.");
+      toast.error("Something went wrong. Please try again later.", {
+        position: "top-right",
+        duration: 5000,
+        icon: "🚨",
+      });
     }
   };
 
