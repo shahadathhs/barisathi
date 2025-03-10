@@ -1,9 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import logo from "@/assets/logo.png";
 import { getCurrentUser, IUser, logout } from "@/services/auth.service";
 import { ActiveLink } from "@/components/shared/nav/utils/ActiveLink";
 import {
@@ -12,6 +9,7 @@ import {
   navLinks,
 } from "@/constant/navigationLinks";
 import { MobileNavDropdown } from "./utils/MobileNavDropdown";
+import Logo from "../Logo";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -60,14 +58,7 @@ export default function Navbar() {
     <nav className={navClasses}>
       <div className="container mx-auto flex items-center justify-between px-2 lg:px-4">
         {/* Logo */}
-        <Link href="/">
-          <div className="flex items-center space-x-2 cursor-pointer">
-            <Image src={logo} alt="Logo" width={60} height={60} />
-            <span className="text-xl font-bold text-primary italic">
-              BARISATHI
-            </span>
-          </div>
-        </Link>
+        <Logo />
 
         {/* Desktop Navigation: Render horizontal nav if not mobile */}
         {!isMobile && (

@@ -1,5 +1,6 @@
-import Navbar from '@/components/shared/nav/Navbar';
-import React from 'react'
+import Footer from "@/components/shared/footer/Footer";
+import Navbar from "@/components/shared/nav/Navbar";
+import React from "react";
 
 export default function HomeLayout({
   children,
@@ -10,7 +11,7 @@ export default function HomeLayout({
     <div>
       <Navbar />
       <main>{children}</main>
-      <footer>Footer</footer>
+      <Footer />
     </div>
-  )
+  );
 }
