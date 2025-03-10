@@ -105,11 +105,7 @@ export default function Navbar() {
         )}
 
         {/* Mobile Navigation: Render dropdown for mobile devices */}
-        {isMobile && (
-          <div>
-            <MobileNavDropdown />
-          </div>
-        )}
+        {isMobile && <MobileNavDropdown />}
       </div>
     </nav>
   );
