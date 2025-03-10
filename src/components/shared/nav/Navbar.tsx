@@ -52,7 +52,7 @@ export default function Navbar() {
   };
 
   // Sticky navbar with smooth transition and rounded border.
-  const navClasses = `sticky top-4 z-50 bg-white transition-all transform ease-in-out duration-500 border rounded-md p-2 lg:p-4 m-4 ${
+  const navClasses = `sticky top-4 z-[9999] bg-white transition-all transform ease-in-out duration-500 border rounded-md p-2 lg:p-4 m-4 ${
     scrolled ? "scale-90" : ""
   }`;
 

@@ -39,7 +39,7 @@ export const MobileNavDropdown = () => {
           Menu
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-40 mr-10">
+      <DropdownMenuContent className="w-40 mt-2 mr-10 z-[10000]">
         {navLinks.map((link) => (
           <DropdownMenuItem key={nanoid()}>
             <ActiveLink href={link.link}>{link.title}</ActiveLink>
