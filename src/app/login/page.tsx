@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
@@ -31,7 +31,23 @@ const loginSchema = z.object({
 // Form type
 type LoginFormValues = z.infer<typeof loginSchema>;
 
+/**
+ * This component renders a login page. It's a wrapper around the LoginContent
+ * component, and it adds a suspense boundary to handle loading states.
+ *
+ * The page can be accessed at /login, and it accepts a redirectPath query
+ * parameter. If the user successfully logs in, they will be redirected to
+ * the page they were on before they logged in.
+ */
 export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginContent />
+    </Suspense>
+  );
+}
+
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get("redirectPath") || null;
