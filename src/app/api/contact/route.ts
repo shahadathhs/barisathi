@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Resend } from "resend";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -19,47 +20,84 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // * this is mail gun implementation
+  // try {
+  //   const formData = new URLSearchParams();
+  //   formData.append(
+  //     "from",
+  //     `Contact Form <noreply@${process.env.NEXT_PUBLIC_MAILGUN_DOMAIN}>`
+  //   );
+  //   formData.append("to", process.env.NEXT_PUBLIC_MAILGUN_EMAIL as string);
+  //   formData.append("subject", "Contact Form Submission");
+  //   formData.append(
+  //     "text",
+  //     `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
+  //   );
+
+  //   const res = await fetch(
+  //     `https://api.mailgun.net/v3/${process.env.NEXT_PUBLIC_MAILGUN_DOMAIN}/messages`,
+  //     {
+  //       method: "POST",
+  //       headers: {
+  //         Authorization: `Basic ${Buffer.from(
+  //           `api:${process.env.NEXT_PUBLIC_MAILGUN_API_KEY}`
+  //         ).toString("base64")}`,
+  //         "Content-Type": "application/x-www-form-urlencoded",
+  //       },
+  //       body: formData.toString(),
+  //     }
+  //   );
+
+  //   const data = await res.json();
+  //   if (res.ok) {
+  //     return NextResponse.json({ success: true, message: "Email sent", data });
+  //   } else {
+  //     return NextResponse.json(
+  //       { success: false, message: "Failed to send email", error: data },
+  //       { status: 500 }
+  //     );
+  //   }
+  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // } catch (error: any) {
+  //   console.error("Error sending email:", error);
+  //   return NextResponse.json(
+  //     { success: false, message: error?.message || "Something went wrong" },
+  //     { status: 500 }
+  //   );
+  // }
+
+  // * this is resend implementation
   try {
-    const formData = new URLSearchParams();
-    formData.append(
-      "from",
-      `Contact Form <noreply@${process.env.NEXT_PUBLIC_MAILGUN_DOMAIN}>`
-    );
-    formData.append("to", process.env.NEXT_PUBLIC_MAILGUN_EMAIL as string);
-    formData.append("subject", "Contact Form Submission");
-    formData.append(
-      "text",
-      `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
-    );
+    // Initialize Resend
+    const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 
-    const res = await fetch(
-      `https://api.mailgun.net/v3/${process.env.NEXT_PUBLIC_MAILGUN_DOMAIN}/messages`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Basic ${Buffer.from(
-            `api:${process.env.NEXT_PUBLIC_MAILGUN_API_KEY}`
-          ).toString("base64")}`,
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: formData.toString(),
-      }
-    );
-
-    const data = await res.json();
-    if (res.ok) {
-      return NextResponse.json({ success: true, message: "Email sent", data });
-    } else {
+    // Send email
+    const data = await resend.emails.send({
+      from: "Contact Form BariSathi <shahadathhossensajib732@gmail.com>",
+      to: process.env.NEXT_PUBLIC_RESEND_TO_EMAIL as string,
+      replyTo: email,
+      subject: "New Contact Form Submission",
+      text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+    });
+    console.log("Email sent:", data);
+    if (data.error) {
+      console.error("Error sending email:", data.error);
       return NextResponse.json(
-        { success: false, message: "Failed to send email", error: data },
+        { success: false, message: "Failed to send email", error: data.error },
         { status: 500 }
       );
     }
+
+    return NextResponse.json({ success: true, message: "Email sent", data });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("Error sending email:", error);
     return NextResponse.json(
-      { success: false, message: error?.message || "Something went wrong" },
+      {
+        success: false,
+        message: error?.message || "Something went wrong",
+        errorDetails: error,
+      },
       { status: 500 }
     );
   }
