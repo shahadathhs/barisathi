@@ -68,18 +68,18 @@ export async function POST(req: NextRequest) {
 
   // * this is resend implementation
   try {
-    // Initialize Resend
+    // * Initialize Resend
     const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 
-    // Send email
+    // * Send email
     const data = await resend.emails.send({
-      from: "Contact Form BariSathi <shahadathhossensajib732@gmail.com>",
+      from: `Contact Form BariSathi <onboarding@resend.dev>`,
       to: process.env.NEXT_PUBLIC_RESEND_TO_EMAIL as string,
       replyTo: email,
       subject: "New Contact Form Submission",
       text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
     });
-    console.log("Email sent:", data);
+
     if (data.error) {
       console.error("Error sending email:", data.error);
       return NextResponse.json(
