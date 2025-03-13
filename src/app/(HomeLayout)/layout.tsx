@@ -10,7 +10,7 @@ export default function HomeLayout({
   return (
     <div>
       <Navbar />
-      <main>{children}</main>
+      <main className="min-h-screen">{children}</main>
       <Footer />
     </div>
   );

@@ -15,7 +15,7 @@ export default function CareersPage() {
   };
 
   return (
-    <main className="min-h-screen py-16 px-4 md:px-8 lg:px-12">
+    <main className="min-h-screen py-8 md:py-16 px-4 md:px-8 lg:px-12">
       {/* Hero Section */}
       <section className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">

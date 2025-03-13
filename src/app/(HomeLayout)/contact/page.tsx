@@ -60,7 +60,7 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="min-h-screen py-16 px-4 md:px-8 lg:px-12 max-w-xl mx-auto">
+    <main className="min-h-screen py-8 md:py-16 px-4 md:px-8 lg:px-12 max-w-xl mx-auto">
       {/* Contact Info Section */}
       <section className="mb-12">
         <h1 className="text-4xl font-bold mb-6 text-center">Contact Us</h1>
