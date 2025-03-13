@@ -58,3 +58,31 @@ export const termsOfUseSections = [
       "These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which Barisathi operates, without regard to its conflict of law principles.",
   },
 ]
+
+export const cookiePolicySections = [
+  {
+    title: "What Are Cookies?",
+    content:
+      "Cookies are small data files stored on your device by your web browser. They help us remember your preferences and improve your browsing experience on Barisathi.",
+  },
+  {
+    title: "How We Use Cookies",
+    content:
+      "We use cookies to enhance your experience, analyze site traffic, and personalize content. Some cookies are essential for the functioning of the website, while others help us improve its performance and gather analytics.",
+  },
+  {
+    title: "Types of Cookies We Use",
+    content:
+      "1. Essential Cookies: These cookies are necessary for the website to function properly and cannot be disabled. \n\n2. Analytics Cookies: These help us understand how visitors interact with our website by collecting and reporting information anonymously. \n\n3. Marketing Cookies: These are used to deliver personalized ads based on your browsing habits.",
+  },
+  {
+    title: "Managing Cookies",
+    content:
+      "You can control and manage cookies through your browser settings. Most browsers allow you to block or delete cookies. However, please note that disabling cookies may affect the functionality of our website.",
+  },
+  {
+    title: "Changes to Our Cookie Policy",
+    content:
+      "We may update this Cookie Policy periodically to reflect changes in our practices or legal requirements. Any updates will be posted on this page with an updated revision date.",
+  },
+];
