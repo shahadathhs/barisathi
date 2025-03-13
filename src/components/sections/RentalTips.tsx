@@ -1,0 +1,31 @@
+"use client";
+
+import { rentalTips } from "@/constant/rentalTips";
+import { motion } from "framer-motion";
+import { nanoid } from "nanoid";
+
+export default function RentalTips() {
+  return (
+    <section className="py-16 px-4 md:px-8 lg:px-12">
+      <h2 className="text-3xl font-bold text-center mb-8">Tips for Renting</h2>
+      <div className="max-w-3xl mx-auto space-y-6">
+        {rentalTips.map((tip, index) => (
+          <motion.div
+            key={nanoid()}
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{
+              duration: 0.5,
+              ease: "easeInOut",
+              delay: index * 0.4,
+            }}
+            className="p-5 bg-white shadow rounded-lg border-l-4 border-primary"
+          >
+            <h3 className="text-xl font-semibold text-gray-900">{tip.title}</h3>
+            <p className="text-gray-700 mt-2">{tip.description}</p>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+}
