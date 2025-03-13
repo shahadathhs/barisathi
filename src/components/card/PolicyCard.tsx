@@ -3,7 +3,7 @@ interface PolicySectionProps {
   content: string;
 }
 
-export default function PrivacyPolicyCard({
+export default function PolicyCard({
   title,
   content,
 }: PolicySectionProps) {

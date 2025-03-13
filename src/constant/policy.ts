@@ -25,3 +25,36 @@ export const privacyPolicySections = [
       "We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated revision date. We encourage you to review this Privacy Policy periodically.",
   },
 ];
+
+export const termsOfUseSections = [
+  {
+    title: "Acceptance of Terms",
+    content:
+      "By accessing and using Barisathi, you accept and agree to be bound by the terms and provision of this Terms of Use. In addition, when using these particular services, you shall be subject to any posted guidelines or rules applicable to such services, which may be posted and modified from time to time.",
+  },
+  {
+    title: "Modification of Terms",
+    content:
+      "Barisathi reserves the right to change these terms at any time without prior notice. It is your responsibility to review these terms periodically. Your continued use of the service constitutes your acceptance of any modifications to these Terms.",
+  },
+  {
+    title: "User Responsibilities",
+    content:
+      "Users agree to use Barisathi in compliance with all applicable laws and not to use the service for any unlawful or prohibited activities. You are solely responsible for the accuracy and legality of any content you submit.",
+  },
+  {
+    title: "Intellectual Property",
+    content:
+      "All content, trademarks, and data on Barisathi, including but not limited to text, graphics, logos, and images, are the property of Barisathi or its licensors. You may not reproduce, distribute, or create derivative works without prior written consent.",
+  },
+  {
+    title: "Limitation of Liability",
+    content:
+      "In no event shall Barisathi be liable for any direct, indirect, incidental, consequential, or punitive damages arising out of your access to or use of the service. You agree to use the service at your own risk.",
+  },
+  {
+    title: "Governing Law",
+    content:
+      "These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which Barisathi operates, without regard to its conflict of law principles.",
+  },
+]
