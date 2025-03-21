@@ -1,10 +1,6 @@
-"use client";
-
 import { nanoid } from "nanoid";
-import { useState, useEffect } from "react";
 import { ActiveLink } from "./ActiveLink";
 import { authLinks, navLinks } from "@/constant/navigationLinks";
-import { getCurrentUser, logout } from "@/services/auth.service";
 import { IUser } from "@/services/auth.interface";
 import {
   DropdownMenu,
@@ -15,22 +11,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 
-export const MobileNavDropdown = () => {
-  const [user, setUser] = useState<IUser | null>(null);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const currentUser = await getCurrentUser();
-      if (currentUser) setUser(currentUser);
-    };
-    fetchUser();
-  }, []);
-
-  const handleLogout = async () => {
-    await logout();
-    window.location.href = "/";
-  };
-
+export const MobileNavDropdown = ({
+  user,
+  handleLogout,
+}: {
+  user: IUser | null;
+  handleLogout: () => void;
+}) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -52,7 +39,7 @@ export const MobileNavDropdown = () => {
             <DropdownMenuItem>
               <ActiveLink href={`/${user?.role}`}>Profile</ActiveLink>
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={handleLogout}>Logout</DropdownMenuItem>
+            <DropdownMenuItem onSelect={handleLogout} className="text-red-600">Logout</DropdownMenuItem>
           </>
         ) : (
           authLinks.map((link) => (

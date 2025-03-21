@@ -2,12 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { getCurrentUser, logout } from "@/services/auth.service";
-import { ActiveLink } from "@/components/shared/nav/utils/ActiveLink";
-import { authLinks, navLinks } from "@/constant/navigationLinks";
-import { MobileNavDropdown } from "./utils/MobileNavDropdown";
-import Logo from "../logo/Logo";
 import { IUser } from "@/services/auth.interface";
-import { Button } from "@/components/ui/button";
+import { MobileNavDropdown } from "./utils/MobileNavDropdown";
+import { LargeNavLinks } from "./utils/LargeNavLinks"; // New extracted component
+import Logo from "../logo/Logo";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -58,36 +56,11 @@ export default function Navbar() {
         {/* Logo */}
         <Logo />
 
-        {/* Desktop Navigation: Render horizontal nav if not mobile */}
-        {!isMobile && (
-          <div className="flex items-center space-x-6">
-            {navLinks.map((link) => (
-              <ActiveLink key={link.link} href={link.link}>
-                {link.title}
-              </ActiveLink>
-            ))}
-
-            {user ? (
-              <>
-                <ActiveLink href={`/${user?.role}`}>Profile</ActiveLink>
-                <Button onClick={handleLogout} variant={"destructive"}>
-                  Logout
-                </Button>
-              </>
-            ) : (
-              <>
-                {authLinks.map((link) => (
-                  <ActiveLink key={link.link} href={link.link}>
-                    {link.title}
-                  </ActiveLink>
-                ))}
-              </>
-            )}
-          </div>
-        )}
+        {/* Desktop Navigation: Large screen links */}
+        {!isMobile && <LargeNavLinks user={user} handleLogout={handleLogout} />}
 
         {/* Mobile Navigation: Render dropdown for mobile devices */}
-        {isMobile && <MobileNavDropdown />}
+        {isMobile && <MobileNavDropdown user={user} handleLogout={handleLogout} />}
       </div>
     </nav>
   );
