@@ -1,6 +1,6 @@
 "use client";
 
-import { authLinks, navLinks } from "@/constant/navigationLinks";
+import { navLinks } from "@/constant/navigationLinks";
 import { ActiveLink } from "@/components/shared/nav/utils/ActiveLink";
 import { IUser } from "@/services/auth.interface";
 import {
@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Menu } from "lucide-react";
+import { nanoid } from "nanoid";
 
 interface LargeNavLinksProps {
   user: IUser | null;
@@ -21,7 +22,7 @@ export const LargeNavLinks = ({ user, handleLogout }: LargeNavLinksProps) => {
   return (
     <div className="flex items-center space-x-2 lg:space-x-3 mr-6">
       {navLinks.map((link) => (
-        <ActiveLink key={link.link} href={link.link}>
+        <ActiveLink key={nanoid()} href={link.link}>
           {link.title}
         </ActiveLink>
       ))}
