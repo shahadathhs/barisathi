@@ -3,7 +3,7 @@ export const navLinks = [
   { title: "Home", link: "/" },
   { title: "About", link: "/about-us" },
   { title: "Contact", link: "/contact" },
-  { title: "Rent Listing", link: "/rent-listing" },
+  { title: "Rental House", link: "/rental-house" },
 ];
 
 export const authLinks = [
@@ -11,12 +11,10 @@ export const authLinks = [
   { title: "Register", link: "/register" },
 ];
 
-export const dashboardLinks = [{ title: "Dashboard", link: "/dashboard" }];
-
 // * footer
 export const quickLinks = [
   { title: "Home", link: "/" },
-  { title: "Rent Listing", link: "/rent-listing" },
+  { title: "Rental House", link: "/rental-house" },
 ];
 
 export const legalLinks = [

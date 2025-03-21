@@ -3,7 +3,7 @@
 import { nanoid } from "nanoid";
 import { useState, useEffect } from "react";
 import { ActiveLink } from "./ActiveLink";
-import { authLinks, dashboardLinks, navLinks } from "@/constant/navigationLinks";
+import { authLinks, navLinks } from "@/constant/navigationLinks";
 import { getCurrentUser, logout } from "@/services/auth.service";
 import { IUser } from "@/services/auth.interface";
 import {
@@ -49,14 +49,10 @@ export const MobileNavDropdown = () => {
 
         {user ? (
           <>
-            {dashboardLinks.map((link) => (
-              <DropdownMenuItem key={nanoid()}>
-                <ActiveLink href={link.link}>{link.title}</ActiveLink>
-              </DropdownMenuItem>
-            ))}
-            <DropdownMenuItem onSelect={handleLogout}>
-              Logout
+            <DropdownMenuItem>
+              <ActiveLink href={`/${user?.role}`}>Profile</ActiveLink>
             </DropdownMenuItem>
+            <DropdownMenuItem onSelect={handleLogout}>Logout</DropdownMenuItem>
           </>
         ) : (
           authLinks.map((link) => (

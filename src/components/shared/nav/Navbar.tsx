@@ -3,14 +3,11 @@
 import { useEffect, useState } from "react";
 import { getCurrentUser, logout } from "@/services/auth.service";
 import { ActiveLink } from "@/components/shared/nav/utils/ActiveLink";
-import {
-  authLinks,
-  dashboardLinks,
-  navLinks,
-} from "@/constant/navigationLinks";
+import { authLinks, navLinks } from "@/constant/navigationLinks";
 import { MobileNavDropdown } from "./utils/MobileNavDropdown";
 import Logo from "../logo/Logo";
 import { IUser } from "@/services/auth.interface";
+import { Button } from "@/components/ui/button";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -72,17 +69,10 @@ export default function Navbar() {
 
             {user ? (
               <>
-                {dashboardLinks.map((link) => (
-                  <ActiveLink key={link.link} href={link.link}>
-                    {link.title}
-                  </ActiveLink>
-                ))}
-                <button
-                  onClick={handleLogout}
-                  className="text-sm text-blue-600 hover:underline transition-colors duration-300"
-                >
+                <ActiveLink href={`/${user?.role}`}>Profile</ActiveLink>
+                <Button onClick={handleLogout} variant={"destructive"}>
                   Logout
-                </button>
+                </Button>
               </>
             ) : (
               <>
