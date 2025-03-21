@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getCurrentUser, IUser, logout } from "@/services/auth.service";
+import { getCurrentUser, logout } from "@/services/auth.service";
 import { ActiveLink } from "@/components/shared/nav/utils/ActiveLink";
 import {
   authLinks,
@@ -10,6 +10,7 @@ import {
 } from "@/constant/navigationLinks";
 import { MobileNavDropdown } from "./utils/MobileNavDropdown";
 import Logo from "../Logo";
+import { IUser } from "@/services/auth.interface";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);

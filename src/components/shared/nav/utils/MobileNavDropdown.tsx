@@ -4,9 +4,8 @@ import { nanoid } from "nanoid";
 import { useState, useEffect } from "react";
 import { ActiveLink } from "./ActiveLink";
 import { authLinks, dashboardLinks, navLinks } from "@/constant/navigationLinks";
-import { getCurrentUser, IUser, logout } from "@/services/auth.service";
-
-// Import shadcn DropdownMenu components.
+import { getCurrentUser, logout } from "@/services/auth.service";
+import { IUser } from "@/services/auth.interface";
 import {
   DropdownMenu,
   DropdownMenuTrigger,

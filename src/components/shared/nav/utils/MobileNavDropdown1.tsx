@@ -3,7 +3,8 @@
 import { nanoid } from "nanoid";
 import { useState, useRef, useEffect } from "react";
 import { ActiveLink } from "./ActiveLink";
-import { getCurrentUser, IUser, logout } from "@/services/auth.service";
+import { getCurrentUser, logout } from "@/services/auth.service";
+import { IUser } from "@/services/auth.interface";
 import {
   navLinks,
   authLinks,
