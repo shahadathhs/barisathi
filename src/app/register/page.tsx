@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import Link from "next/link";
+import LogoForAuthPage from "@/components/shared/logo/LogoForAuthPage";
 
 // * Schema for validation
 const formSchema = z.object({
@@ -72,7 +73,10 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-900">
+    <div className="relative flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-900">
+      {/* Fixed Logo in Top-Left Corner */}
+      <LogoForAuthPage />
+
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader>
           <CardTitle className="text-xl">Create an Account</CardTitle>

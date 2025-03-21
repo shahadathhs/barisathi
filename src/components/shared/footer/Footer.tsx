@@ -7,7 +7,7 @@ import {
   legalLinks,
   quickLinks,
 } from "@/constant/navigationLinks";
-import Logo from "../Logo";
+import Logo from "../logo/Logo";
 import { FooterColumn } from "./utils/FooterColumn";
 
 export default function Footer() {

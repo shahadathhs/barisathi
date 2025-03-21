@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/form";
 import Link from "next/link";
 import { toast } from "sonner";
+import LogoForAuthPage from "@/components/shared/logo/LogoForAuthPage";
 
 // Validation Schema
 const loginSchema = z.object({
@@ -82,7 +83,11 @@ function LoginContent() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="relative flex justify-center items-center min-h-screen bg-gray-50">
+      {/* Fixed Logo in Top-Left Corner */}
+      <LogoForAuthPage />
+
+      {/* Login Form */}
       <div className="w-full max-w-md bg-white shadow-xl rounded-xl p-6 space-y-4">
         <h2 className="text-2xl font-bold text-center">Login</h2>
 

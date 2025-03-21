@@ -9,7 +9,7 @@ import {
   navLinks,
 } from "@/constant/navigationLinks";
 import { MobileNavDropdown } from "./utils/MobileNavDropdown";
-import Logo from "../Logo";
+import Logo from "../logo/Logo";
 import { IUser } from "@/services/auth.interface";
 
 export default function Navbar() {
