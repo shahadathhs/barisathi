@@ -39,7 +39,9 @@ export const MobileNavDropdown = ({
             <DropdownMenuItem>
               <ActiveLink href={`/${user?.role}`}>Profile</ActiveLink>
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={handleLogout} className="text-red-600">Logout</DropdownMenuItem>
+            <DropdownMenuItem onSelect={handleLogout} className="text-red-600">
+              Logout
+            </DropdownMenuItem>
           </>
         ) : (
           authLinks.map((link) => (

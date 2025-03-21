@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { SquareMenu } from "lucide-react";
+import { Menu } from "lucide-react";
 
 interface LargeNavLinksProps {
   user: IUser | null;
@@ -19,7 +19,7 @@ interface LargeNavLinksProps {
 
 export const LargeNavLinks = ({ user, handleLogout }: LargeNavLinksProps) => {
   return (
-    <div className="flex items-center space-x-6">
+    <div className="flex items-center space-x-2 lg:space-x-3 mr-6">
       {navLinks.map((link) => (
         <ActiveLink key={link.link} href={link.link}>
           {link.title}
@@ -29,9 +29,9 @@ export const LargeNavLinks = ({ user, handleLogout }: LargeNavLinksProps) => {
       {user ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SquareMenu className="cursor-pointer" />
+            <Menu className="cursor-pointer" />
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-40 mt-2 mr-10 z-[10000]">
+          <DropdownMenuContent align="end" className="z-[10000]">
             <DropdownMenuItem>
               <ActiveLink href={`/${user.role}`}>Profile</ActiveLink>
             </DropdownMenuItem>
@@ -40,11 +40,7 @@ export const LargeNavLinks = ({ user, handleLogout }: LargeNavLinksProps) => {
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
-        authLinks.map((link) => (
-          <ActiveLink key={link.link} href={link.link}>
-            {link.title}
-          </ActiveLink>
-        ))
+        <ActiveLink href="/login">Login</ActiveLink>
       )}
     </div>
   );

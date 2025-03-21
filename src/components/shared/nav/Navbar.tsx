@@ -6,6 +6,7 @@ import { IUser } from "@/services/auth.interface";
 import { MobileNavDropdown } from "./utils/MobileNavDropdown";
 import { LargeNavLinks } from "./utils/LargeNavLinks"; // New extracted component
 import Logo from "../logo/Logo";
+import { ModeToggle } from "./utils/ModeToggle";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -46,7 +47,7 @@ export default function Navbar() {
   };
 
   // Sticky navbar with smooth transition and rounded border.
-  const navClasses = `sticky top-4 z-[9999] bg-white transition-all transform ease-in-out duration-500 border rounded-md p-2 lg:p-4 m-4 ${
+  const navClasses = `sticky top-4 z-[9999] bg-white dark:bg-gray-800 transition-all transform ease-in-out duration-500 border rounded-md p-2 lg:p-4 m-4 ${
     scrolled ? "scale-90" : ""
   }`;
 
@@ -56,11 +57,21 @@ export default function Navbar() {
         {/* Logo */}
         <Logo />
 
-        {/* Desktop Navigation: Large screen links */}
-        {!isMobile && <LargeNavLinks user={user} handleLogout={handleLogout} />}
+        {/* Navigation Links */}
+        <div className="flex items-center space-x-4">
+          {/* Desktop Navigation: Large screen links */}
+          {!isMobile && (
+            <LargeNavLinks user={user} handleLogout={handleLogout} />
+          )}
 
-        {/* Mobile Navigation: Render dropdown for mobile devices */}
-        {isMobile && <MobileNavDropdown user={user} handleLogout={handleLogout} />}
+          {/* Mobile Navigation: Render dropdown for mobile devices */}
+          {isMobile && (
+            <MobileNavDropdown user={user} handleLogout={handleLogout} />
+          )}
+
+          {/* Mode Toggle */}
+          <ModeToggle />
+        </div>
       </div>
     </nav>
   );
