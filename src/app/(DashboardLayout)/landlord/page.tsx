@@ -1,5 +1,5 @@
+import Profile from "@/components/page/Profile";
+
 export default function LandlordRootPage() {
-  return (
-    <div>LandlordRootPage</div>
-  )
+  return <Profile />
 }
