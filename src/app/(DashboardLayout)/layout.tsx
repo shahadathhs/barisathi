@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import Link from "next/link";
+import DashboardNavbar from "@/components/shared/DashboardNavbar";
 
 const sidebarLinks = [
   { name: "Dashboard", href: "/dashboard" },
@@ -51,8 +52,11 @@ export default function DashboardLayout({
       </Sheet>
 
       {/* Main content */}
-      <main className="flex-1 p-6 border rounded h-screen overflow-y-auto">
-        {children}
+      <main className="flex-1 p-3 h-screen overflow-y-auto">
+        <div className="border rounded h-full">
+          <DashboardNavbar />
+          <div className="p-3">{children}</div>
+        </div>
       </main>
     </div>
   );
