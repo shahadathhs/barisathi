@@ -73,7 +73,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-900">
+    <div className="relative flex min-h-screen items-center justify-center  dark:bg-gray-900">
       {/* Fixed Logo in Top-Left Corner */}
       <LogoForAuthPage />
 

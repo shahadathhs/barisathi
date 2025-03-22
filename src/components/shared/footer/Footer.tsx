@@ -17,7 +17,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between gap-8">
           {/* Logo, Description, and Social Links */}
           <div className="md:w-1/3">
-            <Logo textColor="text-secondary" />
+            <Logo />
             <p className="mt-4 text-gray-400">
               BariSathi is your smart rental housing solution connecting
               landlords, tenants, and administrators. Find your perfect home
