@@ -3,7 +3,7 @@
 
 import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
-import { ILogin, IRegister, TJwtPayload } from "./auth.interface";
+import { ILogin, IRegister, IUser, TJwtPayload } from "./auth.interface";
 
 export const registerUser = async (userData: IRegister) => {
   try {
@@ -55,6 +55,11 @@ export const getCurrentUser = async () => {
   return null;
 };
 
+export const getToken = async () => {
+  const token = (await cookies()).get("token")?.value;
+  return token;
+};
+
 export const logout = async () => {
   (await cookies()).delete("token");
   (await cookies()).delete("user");
@@ -97,4 +102,31 @@ export const getUserRole = async (): Promise<string | null> => {
 export const isUserLoggedIn = async (): Promise<boolean> => {
   const user = await getUserFromToken();
   return !!user;
+};
+
+export const updateProfile = async (
+  updateData: IUser,
+  token: string
+): Promise<any> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/update-profile`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updateData),
+      }
+    );
+    const result = await res.json();
+    if (result?.success) {
+      (await cookies()).set("user", JSON.stringify(result?.data));
+    }
+    return result;
+  } catch (error: any) {
+    console.error("Error updating user:", error);
+    Error(error.message);
+  }
 };

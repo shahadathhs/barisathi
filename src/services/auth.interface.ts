@@ -19,7 +19,7 @@ export interface ILogin {
 }
 
 export interface IUser {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   phone: string;
