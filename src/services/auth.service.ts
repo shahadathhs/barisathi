@@ -130,3 +130,30 @@ export const updateProfile = async (
     Error(error.message);
   }
 };
+
+export const updatePassword = async (
+  updateData: { currentPassword: string; newPassword: string },
+  token: string
+): Promise<any> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/update-password`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updateData),
+      }
+    );
+    const result = await res.json();
+    if (result?.success) {
+      (await cookies()).set("user", JSON.stringify(result?.data));
+    }
+    return result;
+  } catch (error: any) {
+    console.error("Error updating user:", error);
+    Error(error.message);
+  }
+};
