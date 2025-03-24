@@ -6,7 +6,7 @@ import { IUser } from "@/interface/auth.interface";
 import { MobileNavDropdown } from "./utils/MobileNavDropdown";
 import { LargeNavLinks } from "./utils/LargeNavLinks"; // New extracted component
 import Logo from "../logo/Logo";
-import { ModeToggle } from "./utils/ModeToggle";
+import { ModeToggle } from "../ModeToggle";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
