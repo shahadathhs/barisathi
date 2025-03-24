@@ -1,6 +1,6 @@
 "use client";
 
-import Spinner from "@/components/shared/Spinner";
+import Spinner from "@/components/shared/loading/Spinner";
 
 export default function Loading() {
   return (
