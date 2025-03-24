@@ -5,163 +5,249 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { toast } from "sonner";
 import {
   getCurrentUser,
   getToken,
   updateProfile,
+  updatePassword,
 } from "@/services/auth.service";
 import { IUser } from "@/interface/auth.interface";
-import Spinner from "../shared/Spinner";
+import Spinner from "@/components/shared/Spinner";
 
-// Schema for profile validation
+// Validation schema for profile update
 const profileSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email address"),
   phone: z.string().min(1, "Phone number is required"),
 });
-
 type ProfileFormData = z.infer<typeof profileSchema>;
 
+// Validation schema for password update
+const passwordSchema = z.object({
+  currentPassword: z.string().min(6, "Current password is required"),
+  newPassword: z.string().min(6, "New password must be at least 6 characters"),
+});
+type PasswordFormData = z.infer<typeof passwordSchema>;
+
 export default function Profile() {
-  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<IUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const form = useForm<ProfileFormData>({
+  // Setup react-hook-form for profile update
+  const profileForm = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-    },
+    defaultValues: { name: "", email: "", phone: "" },
   });
 
-  // Fetch the current user and populate the form.
+  // Setup react-hook-form for password update
+  const passwordForm = useForm<PasswordFormData>({
+    resolver: zodResolver(passwordSchema),
+    defaultValues: { currentPassword: "", newPassword: "" },
+  });
+
+  // Load user data and token
   useEffect(() => {
     const loadUser = async () => {
       const currentUser = await getCurrentUser();
-      if (currentUser) {
+      const tkn = await getToken();
+      if (currentUser && tkn) {
         setUser(currentUser);
-        form.reset({
+        setToken(tkn);
+        profileForm.reset({
           name: currentUser.name,
           email: currentUser.email,
           phone: currentUser.phone,
         });
       }
-      const token = await getToken();
-      if (!token) return;
-      setToken(token);
     };
     loadUser();
-  }, [form]);
+  }, [profileForm]);
 
-  const onSubmit = async (data: ProfileFormData) => {
-    setLoading(true);
+  const handleProfileUpdate = async (data: ProfileFormData) => {
     if (!user || !token) return;
-    // Merge the updated fields with the existing user object.
+    setLoading(true);
     const result = await updateProfile({ ...user, ...data }, token);
-    if (result.success) {
+    setLoading(false);
+    if (result?.success) {
       toast.success("Profile updated successfully!", {
         icon: "👋",
-        description: "Your profile has been updated successfully!",
+        description: "Your profile has been updated.",
       });
       setUser(result.data);
     } else {
-      toast.error(result.message, {
-        icon: "😢",
-        description: "An error occurred while updating your profile.",
-      });
+      toast.error(result?.message || "Profile update failed.");
     }
+  };
+
+  const handlePasswordUpdate = async (data: PasswordFormData) => {
+    if (!token) return;
+    setLoading(true);
+    const result = await updatePassword(data, token);
     setLoading(false);
+    if (result?.success) {
+      toast.success("Password updated successfully!");
+    } else {
+      toast.error(result?.message || "Password update failed.");
+    }
   };
 
   if (!user || !token) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="flex gap-4">
-          <Spinner size="lg" />
-          <Spinner size="lg" />
-          <Spinner size="lg" />
-          <Spinner size="lg" />
-        </div>
+        <Spinner size="lg" />
       </div>
     );
   }
 
   return (
-    <Card className="max-w-lg mx-auto my-10">
-      <CardHeader>
-        <CardTitle>My Profile</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            {/* Name Field */}
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Your Name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    <div className="max-w-3xl mx-auto p-6 space-y-8">
+      {/* Basic Profile Info Card */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Welcome, {user.name}!</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2">
+          <p>
+            <strong>Email:</strong> {user.email}
+          </p>
+          <p>
+            <strong>Phone:</strong> {user.phone}
+          </p>
+          <p>
+            <strong>Role:</strong> {user.role}
+          </p>
+        </CardContent>
+      </Card>
 
-            {/* Email Field */}
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="you@example.com"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+      {/* Action Buttons */}
+      <div className="flex gap-4 justify-center">
+        {/* Update Profile Button with Dialog */}
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>Edit Profile</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Edit Profile</DialogTitle>
+              <DialogDescription>
+                Update your personal information.
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={profileForm.handleSubmit(handleProfileUpdate)}>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">Name</label>
+                  <Input
+                    placeholder="Your Name"
+                    {...profileForm.register("name")}
+                  />
+                  <p className="text-xs text-red-500 mt-1">
+                    {profileForm.formState.errors.name?.message}
+                  </p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Email
+                  </label>
+                  <Input
+                    type="email"
+                    placeholder="you@example.com"
+                    {...profileForm.register("email")}
+                  />
+                  <p className="text-xs text-red-500 mt-1">
+                    {profileForm.formState.errors.email?.message}
+                  </p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Phone
+                  </label>
+                  <Input
+                    placeholder="0123456789"
+                    {...profileForm.register("phone")}
+                  />
+                  <p className="text-xs text-red-500 mt-1">
+                    {profileForm.formState.errors.phone?.message}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-6 flex justify-end gap-4">
+                <Button type="button" variant="outline">
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={loading}>
+                  {loading ? "Saving..." : "Save Changes"}
+                </Button>
+              </div>
+            </form>
+          </DialogContent>
+        </Dialog>
 
-            {/* Phone Field */}
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Phone</FormLabel>
-                  <FormControl>
-                    <Input placeholder="0123456789" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Updating..." : "Update Profile"}
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+        {/* Update Password Button with Dialog */}
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline">Update Password</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Update Password</DialogTitle>
+              <DialogDescription>
+                Change your account password.
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={passwordForm.handleSubmit(handlePasswordUpdate)}>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Current Password
+                  </label>
+                  <Input
+                    type="password"
+                    placeholder="Current Password"
+                    {...passwordForm.register("currentPassword")}
+                  />
+                  <p className="text-xs text-red-500 mt-1">
+                    {passwordForm.formState.errors.currentPassword?.message}
+                  </p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    New Password
+                  </label>
+                  <Input
+                    type="password"
+                    placeholder="New Password"
+                    {...passwordForm.register("newPassword")}
+                  />
+                  <p className="text-xs text-red-500 mt-1">
+                    {passwordForm.formState.errors.newPassword?.message}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-6 flex justify-end gap-4">
+                <Button type="button" variant="outline">
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={loading}>
+                  {loading ? "Updating..." : "Update Password"}
+                </Button>
+              </div>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </div>
   );
 }
