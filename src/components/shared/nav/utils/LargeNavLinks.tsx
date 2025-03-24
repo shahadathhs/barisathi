@@ -2,7 +2,7 @@
 
 import { navLinks } from "@/constant/navigationLinks";
 import { ActiveLink } from "@/components/shared/nav/utils/ActiveLink";
-import { IUser } from "@/services/auth.interface";
+import { IUser } from "@/interface/auth.interface";
 import {
   DropdownMenu,
   DropdownMenuTrigger,

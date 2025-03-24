@@ -3,7 +3,12 @@
 
 import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
-import { ILogin, IRegister, IUser, TJwtPayload } from "./auth.interface";
+import {
+  ILogin,
+  IRegister,
+  IUser,
+  TJwtPayload,
+} from "../interface/auth.interface";
 
 export const registerUser = async (userData: IRegister) => {
   try {

@@ -21,7 +21,7 @@ import {
   getToken,
   updateProfile,
 } from "@/services/auth.service";
-import { IUser } from "@/services/auth.interface";
+import { IUser } from "@/interface/auth.interface";
 import Spinner from "../shared/Spinner";
 
 // Schema for profile validation

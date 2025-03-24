@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import { ActiveLink } from "./ActiveLink";
 import { authLinks, navLinks } from "@/constant/navigationLinks";
-import { IUser } from "@/services/auth.interface";
+import { IUser } from "@/interface/auth.interface";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
