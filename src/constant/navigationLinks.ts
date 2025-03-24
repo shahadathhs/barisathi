@@ -29,3 +29,22 @@ export const contactLinks = [
   { title: "Contact Us", link: "/contact" },
   { title: "Careers", link: "/careers" },
 ];
+
+// * Dashboard side bar links based on role
+export const adminLinks = [
+  { name: "Admin", href: "/admin" },
+  { name: "Listings", href: "/admin/listings" },
+  { name: "Requests", href: "/admin/requests" },
+  { name: "Users", href: "/admin/users" },
+];
+
+export const tenantLinks = [
+  { name: "Tenant", href: "/tenant" },
+  { name: "Requests", href: "/tenant/requests" },
+];
+
+export const landlordLinks = [
+  { name: "Landlord", href: "/landlord" },
+  { name: "Listings", href: "/landlord/listings" },
+  { name: "Requests", href: "/landlord/requests" },
+];
