@@ -6,7 +6,7 @@ const authOnlyRoutes = ["/login", "/register"];
 
 // * Define role-based private route regex patterns.
 const roleBasedRoutes: Record<string, RegExp[]> = {
-  landlord: [/^\/landlord/],
+  landlord: [/^\/landlord/, /^\/post-rental-house/],
   tenant: [/^\/tenant/],
   admin: [/^\/admin/],
 };
@@ -50,6 +50,7 @@ export const config = {
     "/register",
     "/admin",
     "/landlord",
+    "/post-rental-house",
     "/tenant",
     "/admin/:path*",
     "/landlord/:path*",
