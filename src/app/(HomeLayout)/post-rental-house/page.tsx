@@ -5,7 +5,7 @@ import type React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Plus, X } from "lucide-react";
 import Image from "next/image";
@@ -30,6 +30,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { toast } from "sonner";
+import { getToken } from "@/services/auth.service";
+import { createListing } from "@/services/listing.service";
+import Loading from "@/components/shared/loading/Loading";
 
 // Form validation schema
 const formSchema = z.object({
@@ -59,7 +62,16 @@ export default function PostRentalHouse() {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const token = await getToken();
+      if (token) setToken(token);
+    };
+    fetchToken();
+  }, []);
 
   // Initialize form
   const form = useForm<FormValues>({
@@ -136,36 +148,33 @@ export default function PostRentalHouse() {
     form.trigger("images");
   };
 
+  if (!token) return <Loading />;
+
   // Handle form submission
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/listings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+      const result = await createListing(data, token);
+
+      if (!result.success) {
+        throw new Error(result.message || "Failed to create listing");
+      }
+      toast("Listing created successfully", {
+        description: "Your rental property has been listed.",
+        duration: 3000,
+        icon: "🎉",
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to create listing");
-      }
-
-      // toast({
-      //   title: "Listing created successfully",
-      //   description: "Your rental property has been listed.",
-      // })
-
-      router.push("/my-listings"); // Redirect to listings page
+      // * redirect to rental house page
+      setTimeout(() => router.push("/rental-house"), 3000);
     } catch (error) {
       console.error("Error creating listing:", error);
-      // toast({
-      //   title: "Submission failed",
-      //   description: "There was an error creating your listing.",
-      //   variant: "destructive",
-      // })
+      toast("Failed to create listing", {
+        description: "There was an error creating your listing.",
+        duration: 3000,
+        icon: "🚨",
+      });
     } finally {
       setIsSubmitting(false);
     }
