@@ -29,6 +29,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { toast } from "sonner";
 
 // Form validation schema
 const formSchema = z.object({
@@ -82,20 +83,14 @@ export default function PostRentalHouse() {
 
     try {
       const uploadPromises = Array.from(files).map(async (file) => {
+        if (!file) return;
         const formData = new FormData();
         formData.append("file", file);
-        formData.append(
-          "upload_preset",
-          `${process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}`
-        );
 
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_CLOUDINARY_URL}`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
+        const response = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
 
         if (!response.ok) {
           throw new Error("Failed to upload image");
@@ -103,7 +98,8 @@ export default function PostRentalHouse() {
 
         const data = await response.json();
         console.log("Image uploaded:", data);
-        return data.secure_url;
+        if (data.success) return data?.uploadedFile?.secure_url;
+        throw new Error("Failed to upload image");
       });
 
       const newImageUrls = await Promise.all(uploadPromises);
@@ -113,17 +109,18 @@ export default function PostRentalHouse() {
       form.setValue("images", allImages);
       form.trigger("images");
 
-      // toast({
-      //   title: "Images uploaded successfully",
-      //   description: `${newImageUrls.length} image(s) uploaded.`,
-      // })
+      toast("Images uploaded successfully", {
+        description: "Your images have been uploaded.",
+        duration: 3000,
+        icon: "🎉",
+      });
     } catch (error) {
       console.error("Error uploading images:", error);
-      // toast({
-      //   title: "Upload failed",
-      //   description: "There was an error uploading your images.",
-      //   variant: "destructive",
-      // })
+      toast("Image upload failed", {
+        description: "There was an error uploading your images.",
+        duration: 3000,
+        icon: "🚨",
+      });
     } finally {
       setIsUploading(false);
     }
