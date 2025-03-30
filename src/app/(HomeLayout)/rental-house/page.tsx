@@ -130,7 +130,7 @@ export default function RentalHouse() {
       <h1 className="text-3xl font-bold mb-8">Find Your Perfect Rental</h1>
 
       {/* Filters */}
-      <div className="bg-muted p-6 rounded-lg mb-8">
+      <div className="border shadow-lg p-6 rounded-lg mb-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
             <label className="text-sm font-medium mb-1 block">Location</label>
@@ -159,7 +159,7 @@ export default function RentalHouse() {
 
           <div>
             <label className="text-sm font-medium mb-1 block">
-              Price Range: ${priceRange[0]} - ${priceRange[1]}
+              Rent Range: ${priceRange[0]} - ${priceRange[1]}
             </label>
             <Slider
               defaultValue={priceRange}
