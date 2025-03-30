@@ -112,7 +112,7 @@ export default function RentalHouse() {
   };
 
   const handleRequestRental = (id: string) => {
-    router.push(`/request-rental/${id}`);
+    router.push(`/rental-request/${id}`);
   };
 
   const handlePageChange = (newPage: number) => {

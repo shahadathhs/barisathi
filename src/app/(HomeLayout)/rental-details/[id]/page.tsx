@@ -72,7 +72,7 @@ export default function ListingDetails() {
   }, [id, token]);
 
   const handleRequestRental = () => {
-    router.push(`/request-rental/${id}`);
+    router.push(`/rental-request/${id}`);
   };
 
   const handleBackToListings = () => {

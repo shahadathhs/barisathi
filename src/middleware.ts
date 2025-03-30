@@ -10,7 +10,7 @@ const commonRoutes: RegExp[] = [/^\/rental-details/];
 // Define role-based private route regex patterns.
 const roleBasedRoutes: Record<string, RegExp[]> = {
   landlord: [/^\/landlord/, /^\/post-rental-house/],
-  tenant: [/^\/tenant/],
+  tenant: [/^\/tenant/, /^\/rental-request/],
   admin: [/^\/admin/],
 };
 
@@ -56,11 +56,13 @@ export const config = {
   matcher: [
     "/login",
     "/register",
+    "/post-rental-house",
     "/rental-details",
     "/rental-details/:path*",
+    "/rental-request",
+    "/rental-request/:path*",
     "/admin",
     "/landlord",
-    "/post-rental-house",
     "/tenant",
     "/admin/:path*",
     "/landlord/:path*",
