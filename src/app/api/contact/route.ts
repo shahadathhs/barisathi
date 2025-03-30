@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Initialize Resend
-    const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
     // Generate HTML email template
     const htmlContent = generateContactFormEmailTemplate(name, email, message);
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     // Send email using Resend with HTML content
     const data = await resend.emails.send({
       from: "Contact Form BariSathi <onboarding@resend.dev>",
-      to: process.env.NEXT_PUBLIC_RESEND_TO_EMAIL as string,
+      to: process.env.CONTACT_FORM_EMAIL as string,
       replyTo: email,
       subject: "New Contact Form Submission - BariSathi",
       html: htmlContent,
