@@ -108,7 +108,7 @@ export default function RentalHouse() {
   };
 
   const handleViewDetails = (id: string) => {
-    router.push(`/rental-house/${id}`);
+    router.push(`/rental-details/${id}`);
   };
 
   const handleRequestRental = (id: string) => {

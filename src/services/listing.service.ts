@@ -46,3 +46,28 @@ export const getAllListings = async (params: string): Promise<any> => {
     Error(error.message);
   }
 };
+
+export const getListingById = async (
+  id: string,
+  token: string
+): Promise<any> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/listings/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const result = await res.json();
+
+    return result;
+  } catch (error: any) {
+    console.error("Error fetching listing:", error);
+    Error(error.message);
+  }
+};

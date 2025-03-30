@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getUserFromToken } from "./services/auth.service";
 
-// * Define routes that should only be accessible when NOT authenticated.
+// Routes accessible only when NOT authenticated.
 const authOnlyRoutes = ["/login", "/register"];
 
-// * Define role-based private route regex patterns.
+// Define common routes accessible by any authenticated user.
+const commonRoutes: RegExp[] = [/^\/rental-details/];
+
+// Define role-based private route regex patterns.
 const roleBasedRoutes: Record<string, RegExp[]> = {
   landlord: [/^\/landlord/, /^\/post-rental-house/],
   tenant: [/^\/tenant/],
@@ -14,7 +17,7 @@ const roleBasedRoutes: Record<string, RegExp[]> = {
 export const middleware = async (request: NextRequest) => {
   const { pathname } = request.nextUrl;
 
-  // * If the route is an auth-only route, redirect if user is already authenticated.
+  // Redirect if already authenticated and trying to access auth-only routes.
   if (authOnlyRoutes.includes(pathname)) {
     const user = await getUserFromToken();
     if (user) {
@@ -25,7 +28,7 @@ export const middleware = async (request: NextRequest) => {
     return NextResponse.next();
   }
 
-  // * For other routes, check if a valid token exists.
+  // For all other routes, ensure the user is authenticated.
   const user = await getUserFromToken();
   if (!user) {
     const loginUrl = new URL(
@@ -35,12 +38,17 @@ export const middleware = async (request: NextRequest) => {
     return NextResponse.redirect(loginUrl);
   }
 
-  // * Check role-based access for authenticated user.
+  // Allow access to common routes for any authenticated user.
+  if (commonRoutes.some((regex) => regex.test(pathname))) {
+    return NextResponse.next();
+  }
+
+  // Check role-based access for other routes.
   const allowedRoutes = roleBasedRoutes[user.role] || [];
   const isAllowed = allowedRoutes.some((regex) => regex.test(pathname));
   if (isAllowed) return NextResponse.next();
 
-  // * If user role doesn't match the route, redirect to homepage.
+  // Redirect unauthorized users to the homepage.
   return NextResponse.redirect(new URL("/", request.url));
 };
 
@@ -48,6 +56,8 @@ export const config = {
   matcher: [
     "/login",
     "/register",
+    "/rental-details",
+    "/rental-details/:path*",
     "/admin",
     "/landlord",
     "/post-rental-house",
