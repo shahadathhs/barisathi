@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import {
   Bed,
@@ -22,8 +22,10 @@ import { toast } from "sonner";
 import { getListingById } from "@/services/listing.service";
 import { getToken } from "@/services/auth.service";
 
-export default function ListingDetails({ params }: { params: { id: string } }) {
+export default function ListingDetails() {
   const router = useRouter();
+  const { id } = useParams();
+
   const [listing, setListing] = useState<Listing | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -41,7 +43,7 @@ export default function ListingDetails({ params }: { params: { id: string } }) {
     const fetchListing = async () => {
       setIsLoading(true);
       try {
-        const result = await getListingById(params.id, token || "");
+        const result = await getListingById(id as string, token || "");
 
         if (!result.success) {
           toast("Failed to load rental details", {
@@ -63,11 +65,14 @@ export default function ListingDetails({ params }: { params: { id: string } }) {
       }
     };
 
-    fetchListing();
-  }, [params.id]);
+    // Ensure token and id are available before fetching
+    if (token && id) {
+      fetchListing();
+    }
+  }, [id, token]);
 
   const handleRequestRental = () => {
-    router.push(`/request-rental/${params.id}`);
+    router.push(`/request-rental/${id}`);
   };
 
   const handleBackToListings = () => {
