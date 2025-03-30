@@ -22,9 +22,6 @@ export const registerUser = async (userData: IRegister) => {
         body: JSON.stringify(userData),
       }
     );
-    if (!res.ok) {
-      throw new Error("Failed to register user");
-    }
     const result = await res.json();
     return result;
   } catch (error: any) {
