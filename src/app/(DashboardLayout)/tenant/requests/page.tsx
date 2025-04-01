@@ -1,7 +1,5 @@
-import React from 'react'
-
-export default function RentalRequestsList() {
+export default function RentalRequestsListTenant() {
   return (
-    <div>RentalRequestsList</div>
+    <div>RentalRequestsListTenant</div>
   )
 }

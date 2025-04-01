@@ -22,7 +22,7 @@ export const middleware = async (request: NextRequest) => {
     const user = await getUserFromToken();
     if (user) {
       return NextResponse.redirect(
-        new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/`, request.url)
+        new URL(`${process.env.NEXT_PUBLIC_APP_URL}/`, request.url)
       );
     }
     return NextResponse.next();
@@ -32,7 +32,7 @@ export const middleware = async (request: NextRequest) => {
   const user = await getUserFromToken();
   if (!user) {
     const loginUrl = new URL(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/login?redirectPath=${pathname}`,
+      `${process.env.NEXT_PUBLIC_APP_URL}/login?redirectPath=${pathname}`,
       request.url
     );
     return NextResponse.redirect(loginUrl);
