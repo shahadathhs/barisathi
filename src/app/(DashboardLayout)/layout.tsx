@@ -10,10 +10,10 @@ export default function DashboardLayout({
       <DashboardSide />
 
       {/* Main content */}
-      <main className="flex-1 p-3 h-screen overflow-y-auto">
-        <div className="border rounded h-full">
+      <main className="flex-1 p-3 h-screen">
+        <div className="border rounded h-full flex flex-col">
           <DashboardNavbar />
-          <div className="p-3">{children}</div>
+          <div className="p-3 flex-1 overflow-y-scroll">{children}</div>
         </div>
       </main>
     </div>

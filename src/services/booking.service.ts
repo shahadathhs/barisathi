@@ -52,3 +52,24 @@ export const createBooking = async (bookingData: IBooking, token: string) => {
     Error(error.message);
   }
 };
+
+export const getBookingsForTenant = async (token: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/bookings/tenant`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const result = await res.json();
+    return result;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    console.error("Error fetching bookings:", error);
+    Error(error.message);
+  }
+};
