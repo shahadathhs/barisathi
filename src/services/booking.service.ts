@@ -1,3 +1,4 @@
+import { BookingStatus } from "@/functions/RentalRequest";
 import { IBooking } from "@/interface/booking.interface";
 
 export const createBooking = async (bookingData: IBooking, token: string) => {
@@ -70,6 +71,77 @@ export const getBookingsForTenant = async (token: string) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("Error fetching bookings:", error);
+    Error(error.message);
+  }
+};
+
+export const getBookingsForLandlord = async (token: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/bookings/landlord`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const result = await res.json();
+    return result;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    console.error("Error fetching bookings:", error);
+    Error(error.message);
+  }
+};
+
+export const getBookingDetailsById = async (
+  bookingId: string,
+  token: string
+) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/bookings/${bookingId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const result = await res.json();
+    return result;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    console.error("Error fetching booking details:", error);
+    Error(error.message);
+  }
+};
+
+export const updateBookingStatus = async (
+  bookingId: string,
+  status: BookingStatus,
+  token: string
+) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/bookings/${bookingId}/status`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status }),
+      }
+    );
+    const result = await res.json();
+    return result;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    console.error("Error updating booking status:", error);
     Error(error.message);
   }
 };

@@ -131,23 +131,23 @@ export default function RentalRequestsListTenant() {
     setIsProcessingPayment(true);
 
     try {
-      // Simulate payment processing
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // // Simulate payment processing
+      // await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      // Update booking status to confirmed
-      const response = await fetch(
-        `/api/bookings/${selectedBooking._id}/confirm`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      // // Update booking status to confirmed
+      // const response = await fetch(
+      //   `/api/bookings/${selectedBooking._id}/confirm`,
+      //   {
+      //     method: "PATCH",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //   }
+      // );
 
-      if (!response.ok) {
-        throw new Error("Failed to confirm booking payment");
-      }
+      // if (!response.ok) {
+      //   throw new Error("Failed to confirm booking payment");
+      // }
 
       // Update local state to reflect the change
       setBookings((prevBookings) =>
