@@ -1,14 +1,14 @@
-import BookingNotificationEmail from "@/components/emails/booking-notification";
+import BookingStatusUpdateEmail from "@/components/emails/booking-status-update";
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { listing, landlord, tenant, booking } = body;
+    const { bookingDetails } = body;
 
     // Validate required fields
-    if (!listing || !landlord || !tenant || !booking) {
+    if (!bookingDetails) {
       return NextResponse.json(
         { success: false, message: "Please provide all data" },
         { status: 400 }
@@ -19,22 +19,17 @@ export async function POST(req: NextRequest) {
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     const data = await resend.emails.send({
-      from: `Rental House Landlord <${process.env.RESEND_FROM_EMAIL}>`,
-      to: process.env.LANDLORD_EMAIL as string,
-      subject: `New Rental Request for ${listing.location}`,
-      replyTo: landlord.email,
-      react: BookingNotificationEmail({
-        landlordName: landlord.name,
-        tenantName: tenant.name,
-        tenantEmail: tenant.email,
-        propertyLocation: listing.location,
-        checkInDate: booking.checkInDate,
-        checkOutDate: booking.checkOutDate,
-        tenantMessage: booking.tenantMessage,
-        rentAmount: listing.rentAmount,
-        bedrooms: listing.bedrooms,
-        propertyImage: listing.images[0] || undefined,
-        bookingId: booking._id,
+      from: `Rental House Tenant <${process.env.RESEND_FROM_EMAIL}>`,
+      to: process.env.TENANT_EMAIL as string,
+      subject: `Your Booking Request has been ${body.status === "approved" ? "Approved" : "Rejected"}`,
+      replyTo: bookingDetails.tenant.email,
+      react: BookingStatusUpdateEmail({
+        tenantName: bookingDetails.tenant.name,
+        propertyLocation: bookingDetails.listing.location,
+        status: body.status,
+        contactPhone: body.contactPhone || "",
+        rejectionReason: body.rejectionReason || "",
+        bookingId: bookingDetails._id,
       }),
     });
 

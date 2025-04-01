@@ -120,7 +120,7 @@ export const BookingConfirmedEmail = ({
                 <Section style={buttonContainer}>
                   <Button
                     style={primaryButton}
-                    href={`${process.env.NEXT_PUBLIC_APP_URL}/landlord/bookings/${bookingId}`}
+                    href={`${process.env.NEXT_PUBLIC_APP_URL}/landlord/requests/${bookingId}`}
                   >
                     View Booking Details
                   </Button>
@@ -136,7 +136,7 @@ export const BookingConfirmedEmail = ({
                 <Section style={buttonContainer}>
                   <Button
                     style={primaryButton}
-                    href={`${process.env.NEXT_PUBLIC_APP_URL}/my-bookings`}
+                    href={`${process.env.NEXT_PUBLIC_APP_URL}/tenant/requests`}
                   >
                     View Booking Details
                   </Button>

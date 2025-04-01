@@ -91,7 +91,7 @@ export const BookingStatusUpdateEmail = ({
                 <Section style={buttonContainer}>
                   <Button
                     style={primaryButton}
-                    href={`${process.env.NEXT_PUBLIC_APP_URL}/my-bookings`}
+                    href={`${process.env.NEXT_PUBLIC_APP_URL}/tenant/requests`}
                   >
                     Complete Your Booking
                   </Button>
@@ -106,7 +106,7 @@ export const BookingStatusUpdateEmail = ({
                 <Section style={buttonContainer}>
                   <Button
                     style={primaryButton}
-                    href={`${process.env.NEXT_PUBLIC_APP_URL}/rental-listings`}
+                    href={`${process.env.NEXT_PUBLIC_APP_URL}/rental-house`}
                   >
                     Browse More Properties
                   </Button>

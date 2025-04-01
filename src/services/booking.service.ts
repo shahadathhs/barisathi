@@ -138,6 +138,30 @@ export const updateBookingStatus = async (
       }
     );
     const result = await res.json();
+
+    // Send email notification to tenant, when booking is approved or rejected by landlord
+    if (
+      result.success &&
+      (status === BookingStatus.APPROVED || status === BookingStatus.REJECTED)
+    ) {
+      try {
+        const response = await fetch("/api/bookingTenant", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            bookingDetails: result.data,
+            status,
+          }),
+        });
+        const data = await response.json();
+        console.log("Email notification sent to tenant", data);
+      } catch (emailError) {
+        // Log email error but don't fail the request
+        console.error("Error sending email notification:", emailError);
+      }
+    }
     return result;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {

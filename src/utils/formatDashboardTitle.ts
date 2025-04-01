@@ -1,23 +1,3 @@
-/**
- * Formats a given pathname into a readable dashboard title.
- *
- * This function takes a URL pathname, trims any trailing slashes,
- * and extracts the last segment, which is assumed to be the most
- * relevant page title. It then converts any hyphenated words in
- * this segment into spaced, capitalized words to provide a more
- * readable title format.
- *
- * @example
- * formatDashboardTitle("/dashboard/property-list") => "Property List"
- * formatDashboardTitle("/dashboard/property-list/") => "Property List"
- * formatDashboardTitle("/dashboard/property-list/1") => "1"
- * formatDashboardTitle("/dashboard/property-list/1/") => "1"
- * formatDashboardTitle("/dashboard/property-list/1/edit") => "Edit"
- *
- * @param pathname - The URL pathname to be formatted.
- * @returns The formatted dashboard title as a string.
- */
-
 export function formatDashboardTitle(pathname: string): string {
   if (!pathname) return ""; // Handle empty pathname safely
 
@@ -25,8 +5,8 @@ export function formatDashboardTitle(pathname: string): string {
   const trimmed = pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
   const segments = trimmed.split("/");
 
-  // Extract the last segment (most relevant page title)
-  const lastSegment = segments[segments.length - 1];
+  // Extract the last segment (most relevant page title), second last segment when segments's length is 3
+  const lastSegment = segments[2] || segments[1];
 
   // Convert hyphenated words into spaced, capitalized words.
   return lastSegment

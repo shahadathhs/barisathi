@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
 
     // Send email using Resend with HTML content
     const data = await resend.emails.send({
-      from: "Contact Form BariSathi <onboarding@resend.dev>",
+      from: `Contact Form BariSathi <${process.env.RESEND_FROM_EMAIL}>`,
       to: process.env.CONTACT_FORM_EMAIL as string,
       replyTo: email,
       subject: "New Contact Form Submission - BariSathi",
