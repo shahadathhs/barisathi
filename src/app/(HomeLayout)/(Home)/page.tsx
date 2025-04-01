@@ -5,7 +5,7 @@ import HeroSection from "@/components/sections/HeroSection";
 
 export default function Home() {
   return (
-    <main className="min-h-screen py-8 md:py-16 px-4 md:px-8 lg:px-12">
+    <main className="min-h-screen py-8 px-4 md:px-8 lg:px-12">
       <HeroSection />
       <Testimonials />
       <RentalTips />

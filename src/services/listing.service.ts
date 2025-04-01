@@ -47,6 +47,25 @@ export const getAllListings = async (params: string): Promise<any> => {
   }
 };
 
+export const getFirstThreeListings = async (): Promise<any> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/listings?limit=3`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    console.error("Error fetching listings:", error);
+    Error(error.message);
+  }
+};
+
 export const getListingById = async (
   id: string,
   token: string

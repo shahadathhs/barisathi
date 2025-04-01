@@ -19,10 +19,10 @@ export default function RentalTips() {
               ease: "easeInOut",
               delay: index * 0.4,
             }}
-            className="p-5 bg-white shadow rounded-lg border-l-4 border-primary"
+            className="p-5 shadow rounded-lg border-l-4 border-primary"
           >
-            <h3 className="text-xl font-semibold text-gray-900">{tip.title}</h3>
-            <p className="text-gray-700 mt-2">{tip.description}</p>
+            <h3 className="text-xl font-semibold">{tip.title}</h3>
+            <p className="text-gray-400 mt-2">{tip.description}</p>
           </motion.div>
         ))}
       </div>
