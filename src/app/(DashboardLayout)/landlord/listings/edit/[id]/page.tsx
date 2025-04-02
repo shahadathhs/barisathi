@@ -123,7 +123,8 @@ export default function EditListing() {
           description: listing.description,
           rentAmount: listing.rentAmount,
           bedrooms: listing.bedrooms,
-          amenities: listing.amenities,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          amenities: listing.amenities.join(", ") as any,
           images: listing.images,
         });
 
