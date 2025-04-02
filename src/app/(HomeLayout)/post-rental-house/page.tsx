@@ -166,8 +166,8 @@ export default function PostRentalHouse() {
         icon: "🎉",
       });
 
-      // * redirect to rental house page
-      setTimeout(() => router.push("/rental-house"), 3000);
+      // * redirect to rental listing page
+      setTimeout(() => router.push("/landlord/listings"), 1000);
     } catch (error) {
       console.error("Error creating listing:", error);
       toast("Failed to create listing", {

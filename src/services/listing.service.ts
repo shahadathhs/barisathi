@@ -47,6 +47,28 @@ export const getAllListings = async (params: string): Promise<any> => {
   }
 };
 
+export const getLandlordListings = async (token: string, params: string): Promise<any> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/listings/landlord?${params}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const result = await res.json();
+
+    return result;
+  } catch (error: any) {
+    console.error("Error fetching listings:", error);
+    Error(error.message);
+  }
+};
+
 export const getFirstThreeListings = async (): Promise<any> => {
   try {
     const res = await fetch(
@@ -87,6 +109,26 @@ export const getListingById = async (
     return result;
   } catch (error: any) {
     console.error("Error fetching listing:", error);
+    Error(error.message);
+  }
+};
+
+export const deleteLIstingById = async (id: string, token: string): Promise<any> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/listings/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    console.error("Error deleting listing:", error);
     Error(error.message);
   }
 };
