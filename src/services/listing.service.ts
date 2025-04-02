@@ -132,3 +132,28 @@ export const deleteLIstingById = async (id: string, token: string): Promise<any>
     Error(error.message);
   }
 };
+
+export const updateListingById = async (
+  id: string,
+  listingData: IListing,
+  token: string
+): Promise<any> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/listings/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(listingData),
+      }
+    );
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    console.error("Error updating listing:", error);
+    Error(error.message);
+  }
+};
