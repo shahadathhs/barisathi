@@ -169,3 +169,63 @@ export const updateBookingStatus = async (
     Error(error.message);
   }
 };
+
+export const confirmPayment = async (bookingId: string, token: string) => {
+  let statusResult = null;
+  let emailResult = null;
+
+  try {
+    const resStatus = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/bookings/${bookingId}/status`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status: BookingStatus.CONFIRMED }),
+      }
+    );
+
+    if (!resStatus.ok) {
+      statusResult = {
+        success: false,
+        error: `Status update failed with status ${resStatus.status}`,
+      };
+    } else {
+      statusResult = await resStatus.json();
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    statusResult = { success: false, error: error.message };
+  }
+
+  // If status update succeeded, attempt to send the email notification
+  if (statusResult?.success) {
+    try {
+      const resEmail = await fetch("/api/bookingPayment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ bookingDetails: statusResult.data }),
+      });
+
+      if (!resEmail.ok) {
+        emailResult = {
+          success: false,
+          error: `Email notification failed with status ${resEmail.status}`,
+        };
+      } else {
+        emailResult = await resEmail.json();
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      emailResult = { success: false, error: error.message };
+    }
+  }
+  console.log("Status Result:", statusResult);
+  console.log("Email Result:", emailResult);
+
+  return { statusResult, emailResult };
+};

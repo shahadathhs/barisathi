@@ -20,7 +20,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -30,8 +29,24 @@ import {
   getStatusBadge,
   getStatusIcon,
 } from "@/functions/RentalRequest";
-import { getBookingsForTenant } from "@/services/booking.service";
+import {
+  confirmPayment,
+  getBookingsForTenant,
+} from "@/services/booking.service";
 import { getToken } from "@/services/auth.service";
+import { Label } from "@/components/ui/label";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  Elements,
+  CardElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+
+// Initialize Stripe with your publishable key
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || ""
+);
 
 interface Booking {
   _id: string;
@@ -60,6 +75,147 @@ interface Booking {
   updatedAt: string;
 }
 
+function PaymentForm({
+  token,
+  booking,
+  onSuccess,
+  onError,
+}: {
+  token: string;
+  booking: Booking;
+  onSuccess: () => void;
+  onError: (message: string) => void;
+}) {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!stripe || !elements) {
+      // Stripe.js has not loaded yet
+      return;
+    }
+
+    setIsProcessing(true);
+
+    try {
+      // Create a payment intent on the server
+      const response = await fetch("/api/create-payment-intent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token,
+          bookingId: booking._id,
+          amount: booking.listing.rentAmount * 1.6 * 100, // Convert to cents and include deposit + fees
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create payment intent");
+      }
+
+      const { clientSecret } = await response.json();
+
+      // Confirm the payment with the card element
+      const cardElement = elements.getElement(CardElement);
+      if (!cardElement) {
+        throw new Error("Card element not found");
+      }
+
+      const { error, paymentIntent } = await stripe.confirmCardPayment(
+        clientSecret,
+        {
+          payment_method: {
+            card: cardElement,
+            billing_details: {
+              name: booking.tenant.name,
+            },
+          },
+        }
+      );
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      if (paymentIntent.status === "succeeded") {
+        // Payment succeeded, now update booking status
+        const statusResponse = await confirmPayment(booking._id, token);
+
+        if (!statusResponse?.statusResult?.success) {
+          throw new Error(statusResponse?.statusResult?.message);
+        }
+
+        onSuccess();
+      } else {
+        throw new Error("Payment processing failed");
+      }
+    } catch (error) {
+      console.error("Payment error:", error);
+      onError(
+        error instanceof Error ? error.message : "An unknown error occurred"
+      );
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="mb-6">
+        <Label htmlFor="card-element" className="block mb-2">
+          Card Details
+        </Label>
+        <div className="p-3 border rounded-md">
+          <CardElement
+            id="card-element"
+            options={{
+              style: {
+                base: {
+                  fontSize: "16px",
+                  color: "#424770",
+                  "::placeholder": {
+                    color: "#aab7c4",
+                  },
+                },
+                invalid: {
+                  color: "#9e2146",
+                },
+              },
+            }}
+          />
+        </div>
+        <p className="text-sm text-muted-foreground mt-2">
+          For testing, use card number 4242 4242 4242 4242, any future
+          expiration date, any 3 digits for CVC, and any postal code.
+        </p>
+      </div>
+
+      <Button
+        type="submit"
+        disabled={!stripe || isProcessing}
+        className="w-full"
+      >
+        {isProcessing ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Processing...
+          </>
+        ) : (
+          <>
+            <DollarSign className="mr-2 h-4 w-4" />
+            Pay ${(booking.listing.rentAmount * 1.6).toLocaleString()}
+          </>
+        )}
+      </Button>
+    </form>
+  );
+}
+
 export default function RentalRequestsListTenant() {
   const router = useRouter();
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -67,7 +223,6 @@ export default function RentalRequestsListTenant() {
   const [activeTab, setActiveTab] = useState("all");
   const [showPaymentDialog, setShowPaymentDialog] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
-  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
@@ -125,55 +280,31 @@ export default function RentalRequestsListTenant() {
     setShowPaymentDialog(true);
   };
 
-  const handleCompletePayment = async () => {
+  const handlePaymentSuccess = () => {
     if (!selectedBooking) return;
 
-    setIsProcessingPayment(true);
+    // Update local state to reflect the change
+    setBookings((prevBookings) =>
+      prevBookings.map((booking) =>
+        booking._id === selectedBooking._id
+          ? { ...booking, status: BookingStatus.CONFIRMED }
+          : booking
+      )
+    );
 
-    try {
-      // // Simulate payment processing
-      // await new Promise((resolve) => setTimeout(resolve, 2000));
+    toast("Payment Successful", {
+      description: "Your booking has been confirmed.",
+      icon: <CheckCircle className="h-5 w-5 text-success" />,
+    });
 
-      // // Update booking status to confirmed
-      // const response = await fetch(
-      //   `/api/bookings/${selectedBooking._id}/confirm`,
-      //   {
-      //     method: "PATCH",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //   }
-      // );
+    setShowPaymentDialog(false);
+  };
 
-      // if (!response.ok) {
-      //   throw new Error("Failed to confirm booking payment");
-      // }
-
-      // Update local state to reflect the change
-      setBookings((prevBookings) =>
-        prevBookings.map((booking) =>
-          booking._id === selectedBooking._id
-            ? { ...booking, status: BookingStatus.CONFIRMED }
-            : booking
-        )
-      );
-
-      toast("Confirmation Successful", {
-        description: "Your rental request has been confirmed.",
-        icon: <CheckCircle className="h-5 w-5 text-green-500" />,
-      });
-
-      setShowPaymentDialog(false);
-    } catch (error) {
-      console.error("Error processing payment:", error);
-      toast("Payment Failed", {
-        description:
-          "An error occurred while processing your payment. Please try again.",
-        icon: <XCircle className="h-5 w-5 text-red-500" />,
-      });
-    } finally {
-      setIsProcessingPayment(false);
-    }
+  const handlePaymentError = (message: string) => {
+    toast("Payment Failed", {
+      description: message,
+      icon: <XCircle className="h-5 w-5 text-destructive" />,
+    });
   };
 
   if (isLoading) {
@@ -405,33 +536,18 @@ export default function RentalRequestsListTenant() {
                   </span>
                 </div>
               </div>
+
+              <Elements stripe={stripePromise}>
+                <PaymentForm
+                  key={selectedBooking._id}
+                  token={token as string}
+                  booking={selectedBooking}
+                  onSuccess={handlePaymentSuccess}
+                  onError={handlePaymentError}
+                />
+              </Elements>
             </div>
           )}
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setShowPaymentDialog(false)}
-              disabled={isProcessingPayment}
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleCompletePayment}
-              disabled={isProcessingPayment}
-            >
-              {isProcessingPayment ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Processing...
-                </>
-              ) : (
-                <>
-                  <DollarSign className="mr-2 h-4 w-4" />
-                  Pay Now
-                </>
-              )}
-            </Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
