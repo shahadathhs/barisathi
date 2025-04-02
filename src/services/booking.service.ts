@@ -1,3 +1,5 @@
+"use server";
+
 import { BookingStatus } from "@/functions/RentalRequest";
 import { IBooking } from "@/interface/booking.interface";
 

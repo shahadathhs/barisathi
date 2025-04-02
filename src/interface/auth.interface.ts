@@ -25,3 +25,29 @@ export interface IUser {
   phone: string;
   role: string;
 }
+
+export enum UserRole {
+  TENANT = "tenant",
+  LANDLORD = "landlord",
+  ADMIN = "admin",
+}
+
+
+export interface User {
+  _id: string
+  name: string
+  email: string
+  role: UserRole
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+export interface UsersResponse {
+  users: User[]
+  metadata: {
+    total: number
+    page: number
+    limit: number
+  }
+}

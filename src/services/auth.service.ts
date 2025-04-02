@@ -8,6 +8,7 @@ import {
   IRegister,
   IUser,
   TJwtPayload,
+  UserRole,
 } from "../interface/auth.interface";
 
 export const registerUser = async (userData: IRegister) => {
@@ -159,6 +160,78 @@ export const updatePassword = async (
     return result;
   } catch (error: any) {
     console.error("Error updating user:", error);
+    Error(error.message);
+  }
+};
+
+export const getAllUsers = async (
+  token: string,
+  params: string
+): Promise<any> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/getAll?${params}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    console.error("Error fetching users:", error);
+    Error(error.message);
+  }
+};
+
+export const updateActiveStatus = async (
+  userId: string,
+  token: string
+): Promise<any> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/${userId}/active`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    console.error("Error updating user status:", error);
+    Error(error.message);
+  }
+};
+
+
+export const updateUserRole = async (
+  userId: string,
+  role: UserRole,
+  token: string
+): Promise<any> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/${userId}/role`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ role }),
+      }
+    );
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    console.error("Error updating user role:", error);
     Error(error.message);
   }
 };
