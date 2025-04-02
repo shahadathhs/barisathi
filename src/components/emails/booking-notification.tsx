@@ -121,7 +121,7 @@ export const BookingNotificationEmail = ({
           <Section style={actionSection}>
             <Button
               style={primaryButton}
-              href={`${process.env.NEXT_PUBLIC_APP_URL}/landlord/bookings/${bookingId}`}
+              href={`${process.env.NEXT_PUBLIC_APP_URL}/landlord/requests/${bookingId}`}
             >
               Review Request
             </Button>
