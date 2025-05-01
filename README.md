@@ -1,107 +1,107 @@
-# BariSathi (Smart Rental & Housing Solution)
+# 🏠 BariSathi (Smart Rental & Housing Solution)
 
-BariSathi is a full-stack web application that offers a smart rental housing solution, connecting landlords, tenants, and an admin. Landlords can post and manage rental listings, while tenants can search for and request rentals. When a landlord approves a request, payment options become available to the tenant, and further contact can be made via the landlord’s phone number.
+BariSathi is a full-stack web application connecting landlords, tenants, and an admin in a smart rental-housing platform. Landlords post and manage rentals; tenants browse, filter, and request rentals; admins oversee users and listings. Secure JWT auth, role-based access, and Stripe payment options are built in.
 
-## Live Demo
+---
 
-- **Live URL:** [https://barisathi.vercel.app](https://barisathi.vercel.app)
+## 📑 Table of Contents
 
-## Project Overview
+- [🔗 Live Demo](#-live-demo)  
+- [📂 Repository Links](#-repository-links)  
+- [💡 Project Overview](#-project-overview)  
+- [🛠️ Tech Stack](#tech-stack)  
+- [📦 Packages Used](#-packages-used)  
+- [🚀 Running Locally](#-running-locally)  
 
-BariSathi provides a seamless platform for managing rental properties. It consists of three user roles:
+---
 
-- **Admin:** Manages all user accounts (Landlords, Tenants) and rental house posts.
-- **Landlord:** Posts and manages rental listings and handles rental requests.
-- **Tenant:** Searches rental properties and submits rental requests.
+## 🔗 Live Demo
 
-The project utilizes custom JWT-based authentication with password hashing via bcrypt and implements role-based access control to secure private pages.
+- **Frontend:** [https://barisathi.vercel.app](https://barisathi.vercel.app)  
+- **Backend API:** [https://barisathi-server.vercel.app/api](https://barisathi-server.vercel.app/api)  
 
-## Key Components
+---
 
-### Core Functionalities
+## 📂 Repository Links
 
-- **Rental House Listings:**
+- **Client:** https://github.com/shahadathhs/barisathi  
+- **Server:** https://github.com/shahadathhs/barisathi-server  
 
-  - Landlords can create detailed listings including location, descriptions, rent amount, number of bedrooms, and images.
-  - Tenants can browse, search, and filter listings by location, price range, and number of bedrooms.
+---
 
-- **Rental Requests:**
+## 💡 Project Overview
 
-  - Tenants submit rental requests for desired properties.
-  - Landlords can review, approve, or reject requests.
-  - Upon approval, payment options (e.g., Stripe, ShurjoPay) become available to tenants.
+- **Admin**: Manage all users (landlords, tenants) and rental posts.  
+- **Landlord**: Create/list/manage property posts; approve or reject tenant requests.  
+- **Tenant**: Browse/search/filter rentals; submit requests; pay when approved.  
+- **Notifications**: Email alerts for approvals, rejections, and payment confirmations.  
+- **Security**: JWT-based auth, bcrypt password hashing, role-based access to private routes.
 
-- **Role-Based Dashboards:**
-
-  - **Admin Dashboard:** Full control over user accounts and rental listings.
-  - **Landlord Dashboard:** Manage personal listings and respond to rental requests.
-  - **Tenant Dashboard:** Track the status of rental requests and complete payment when approved.
-
-- **Email Notifications:** Automated updates for rental requests and other key actions.
-
-### Security
-
-- **Authentication:** Custom JWT authentication.
-- **Password Hashing:** Uses bcrypt to securely store passwords.
-- **Access Control:** Ensures that only authorized users can access specific routes based on their roles.
+---
 
 ## Tech Stack
 
-- **Frontend:**
-  - [Next.js](https://nextjs.org/) for server-side rendering (SSR) and static site generation (SSG)
-  - TypeScript for type safety
-  - React for building user interfaces
-- **Backend:** (Based on the linked server)
-  - Node.js with Express
-  - MongoDB for data storage
-  - JWT for authentication
-  - bcrypt for password hashing
-- **Deployment:**
-  - Frontend is deployed on Vercel
+- **Frontend**: Next.js • React • TypeScript • Tailwind CSS • Radix UI • Framer Motion  
+- **Backend**: Node.js • Express • MongoDB • Mongoose • Zod • JWT • Stripe  
+- **Deployment**: Vercel (both client & server)  
 
-## Features and UI
+---
 
-### Home / Landing Page
+## 📦 Packages Used
 
-- **Header:** Contains the BariSathi logo and a navigation bar with links to Home, About Us, All Listed Rental Housing, Dashboard (role-based), Login/Register, and My Profile.
-- **Hero Section:** Features a catchy headline (e.g., “Find Your Perfect Rental House Today!”) and a call-to-action button for Landlords to post rental house info.
-- **Search Functionality:** Allows users to filter rental listings by location, price range, and number of bedrooms.
-- **Rental House Cards:** Each card shows key details such as location, images, brief description, rent amount, and number of bedrooms with a "View Details" link.
+### Frontend (`/client`)
 
-### Authentication and User Management
+#### Dependencies
 
-- **Login & Registration:**
-  - Login form with fields for username/email and password.
-  - Registration form with fields for username, email, password (with confirmation), and user role selection (Landlord or Tenant).
-- **Profile Management:**
-  - Options to edit user profile details and change password.
+| Package                        | Version   |
+| ------------------------------ | --------- |
+| next                           | 15.2.0    |
+| react                          | ^19.0.0   |
+| react-dom                      | ^19.0.0   |
+| @stripe/stripe-js              | ^7.0.0    |
+| @stripe/react-stripe-js        | ^3.6.0    |
+| @radix-ui/react-accordion      | ^1.2.3    |
+| @radix-ui/react-dialog         | ^1.1.6    |
+| @radix-ui/react-dropdown-menu  | ^2.1.6    |
+| @radix-ui/react-slider         | ^1.2.3    |
+| @hookform/resolvers            | ^4.1.3    |
+| react-hook-form                | ^7.54.2   |
+| clsx                           | ^2.1.1    |
+| date-fns                       | ^4.1.0    |
+| framer-motion                  | ^12.4.7   |
+| jwt-decode                     | ^4.0.0    |
+| lucide-react                   | ^0.477.0  |
+| cloudinary                     | ^2.6.0    |
+| zod                            | ^3.24.2   |
+| sonner                         | ^2.0.1    |
+| resend                         | ^4.1.2    |
+| @tabler/icons-react            | ^3.30.0   |
+| tailwind-merge                 | ^3.0.2    |
+| tailwindcss-animate            | ^1.0.7    |
 
-### Rental House Management
+#### Dev Dependencies
 
-- **For Landlords (Private Routes):**
-  - Form for submitting new rental listings with details such as location, description, rent amount, images, number of bedrooms, and amenities.
-- **Rental House Details Page:**
-  - Displays full details of a rental listing with images, descriptions, and a “Request Rental” button for tenants.
-- **Rental Request Page (Tenant Only):**
-  - Form for tenants to submit rental requests including move-in dates, rental duration, and special requirements.
+| Package                     | Version |
+| --------------------------- | ------- |
+| typescript                  | ^5      |
+| eslint-config-next          | 15.2.0  |
+| eslint                      | ^9      |
+| @eslint/eslintrc            | ^3      |
+| tailwindcss                 | ^4      |
+| @tailwindcss/postcss        | ^4      |
+| @types/react                | ^19     |
+| @types/react-dom            | ^19     |
+| @types/node                 | ^20     |
 
-### Dashboards
+---
 
-- **Admin Dashboard:**
-  - Full control over user accounts and rental listings.
-  - User management features (activate/deactivate accounts, update roles).
-- **Landlord Dashboard:**
-  - Manage rental posts and review rental requests.
-  - Option to initiate payment requests upon approval.
-- **Tenant Dashboard:**
-  - Track the status of rental requests.
-  - Payment options become available when a request is approved.
+## 🚀 Running Locally
 
-## Running Locally
+**Note: this is only to run the frontend locally. To run the backend locally follow the guile in backend repository.**
 
 ### Prerequisites
 
-- **Node.js:** Install Node.js (version 14 or above recommended).
+- **Node.js:** Install Node.js (version 20 or above recommended).
 - **npm or yarn:** Package manager for installing dependencies.
 
 ### Installation
