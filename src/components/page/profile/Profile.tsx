@@ -29,6 +29,9 @@ type ProfileFormData = z.infer<typeof profileSchema>;
 const passwordSchema = z.object({
   currentPassword: z.string().min(6, "Current password is required"),
   newPassword: z.string().min(6, "New password must be at least 6 characters"),
+  confirmPassword: z
+    .string()
+    .min(6, "Confirm password must be at least 6 characters"),
 });
 type PasswordFormData = z.infer<typeof passwordSchema>;
 
@@ -46,7 +49,7 @@ export default function Profile() {
   // Setup react-hook-form for password update
   const passwordForm = useForm<PasswordFormData>({
     resolver: zodResolver(passwordSchema),
-    defaultValues: { currentPassword: "", newPassword: "" },
+    defaultValues: { currentPassword: "", newPassword: "", confirmPassword: "" },
   });
 
   // Load user data and token
