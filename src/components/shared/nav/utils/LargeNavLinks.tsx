@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Menu } from "lucide-react";
 import { nanoid } from "nanoid";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 interface LargeNavLinksProps {
   user: IUser | null;
@@ -41,7 +43,9 @@ export const LargeNavLinks = ({ user, handleLogout }: LargeNavLinksProps) => {
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
-        <ActiveLink href="/login">Login</ActiveLink>
+        <Link href="/login">
+          <Button size={"sm"}>Login</Button>
+        </Link>
       )}
     </div>
   );

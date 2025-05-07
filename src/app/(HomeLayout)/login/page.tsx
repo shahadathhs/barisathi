@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-
 import { getUserRole, loginUser } from "@/services/auth.service";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -19,7 +18,6 @@ import {
 } from "@/components/ui/form";
 import Link from "next/link";
 import { toast } from "sonner";
-import LogoForAuthPage from "@/components/shared/logo/LogoForAuthPage";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 // Validation Schema
@@ -84,12 +82,8 @@ function LoginContent() {
   };
 
   return (
-    <div className="relative flex justify-center items-center min-h-screen dark:bg-gray-900">
-      {/* Fixed Logo in Top-Left Corner */}
-      <LogoForAuthPage />
-
-      {/* Login Form */}
-      <Card className="w-full max-w-md shadow-lg">
+    <div className="flex justify-center items-center px-4 py-16 max-w-3xl mx-auto md:border-l md:border-r">
+      <Card className="w-full max-w-md shadow">
         <CardHeader>
           <CardTitle className="text-xl">Login to your account</CardTitle>
         </CardHeader>

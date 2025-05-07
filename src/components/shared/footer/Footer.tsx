@@ -12,7 +12,7 @@ import { FooterColumn } from "./utils/FooterColumn";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white py-12">
+    <footer className="bg-black text-white py-12">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between gap-8">
           {/* Logo, Description, and Social Links */}
