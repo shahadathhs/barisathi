@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getCurrentUser, logout } from "@/services/auth.service";
 import { IUser } from "@/interface/auth.interface";
 import { MobileNavDropdown } from "./utils/MobileNavDropdown";
-import { LargeNavLinks } from "./utils/LargeNavLinks"; // New extracted component
+import { LargeNavLinks } from "./utils/LargeNavLinks";
 import Logo from "../logo/Logo";
 import { ModeToggle } from "../ModeToggle";
 
@@ -37,8 +37,8 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-[9999]">
-      <div className="flex items-center justify-between bg-white dark:bg-gray-800 border-b p-2 lg:p-4">
+    <nav className="sticky top-0 z-[9999] bg-white dark:bg-gray-800 border-b">
+      <div className="flex items-center justify-between container mx-auto px-4  p-2 lg:p-4">
         {/* Logo */}
         <Logo />
 

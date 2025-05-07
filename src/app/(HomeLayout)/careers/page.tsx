@@ -15,13 +15,11 @@ export default function CareersPage() {
   };
 
   return (
-    <main className="min-h-screen py-8 md:py-16 px-4 md:px-8 lg:px-12">
+    <main className="min-h-screen py-16 max-w-3xl mx-auto md:border-l md:border-r">
       {/* Hero Section */}
-      <section className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          Join the Barisathi Team
-        </h1>
-        <p className="text-lg md:text-xl text-gray-700 mb-6 max-w-2xl mx-auto">
+      <section className="max-w-xl mx-auto text-center mb-12 px-4">
+        <h1 className="text-4xl font-bold mb-4">Join the Barisathi Team</h1>
+        <p className="text-lg text-gray-700 mb-6 max-w-2xl mx-auto">
           At Barisathi, we’re on a mission to revolutionize the rental housing
           market by connecting landlords and tenants in innovative ways. Join us
           to be part of a dynamic team that values creativity, integrity, and a
@@ -35,7 +33,7 @@ export default function CareersPage() {
       <Separator className="my-8" />
 
       {/* Why Join Us Section */}
-      <section className="max-w-4xl mx-auto mb-12">
+      <section className="max-w-xl mx-auto mb-12 px-4">
         <h2 className="text-3xl font-bold mb-6 text-center">
           Why Work at Barisathi?
         </h2>
@@ -53,7 +51,7 @@ export default function CareersPage() {
       <Separator className="my-8" />
 
       {/* Contact Section */}
-      <section className="max-w-4xl mx-auto text-center">
+      <section className="max-w-xl mx-auto text-center px-4">
         <h2 className="text-3xl font-bold mb-4">Get in Touch</h2>
         <p className="text-lg text-gray-700 mb-6">
           If you’re passionate, innovative, and ready to make a difference,

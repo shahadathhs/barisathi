@@ -85,7 +85,7 @@ export default function ListingDetails() {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto py-10 flex justify-center items-center min-h-[50vh]">
+      <div className="container mx-auto py-16 px-4 flex justify-center items-center min-h-[50vh]">
         <Loader2 className="h-8 w-8 animate-spin" />
       </div>
     );
@@ -93,7 +93,7 @@ export default function ListingDetails() {
 
   if (!listing) {
     return (
-      <div className="container mx-auto py-10">
+      <div className="container mx-auto py-16 px-4">
         <div className="text-center py-12">
           <h2 className="text-xl font-semibold mb-2">Listing not found</h2>
           <p className="text-muted-foreground mb-4">
@@ -110,7 +110,7 @@ export default function ListingDetails() {
   }
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto py-16 px-4">
       <Button variant="ghost" onClick={handleBackToListings} className="mb-6">
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back to Listings

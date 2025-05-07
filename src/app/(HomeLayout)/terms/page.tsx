@@ -4,18 +4,20 @@ import { termsOfUseSections } from "@/constant/policy";
 
 export default function TermsOfUsePage() {
   return (
-    <main className="min-h-screen py-8 md:py-16 px-4 md:px-8 lg:px-12 max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold mb-6 text-center">Terms of Use</h1>
+    <main className="min-h-screen py-16 px-4 max-w-3xl mx-auto md:border-l md:border-r">
+      <div className="max-w-xl mx-auto">
+        <h1 className="text-4xl font-bold mb-6 text-center">Terms of Use</h1>
 
-      {termsOfUseSections.map((section) => (
-        <PolicyCard
-          key={section.title}
-          title={section.title}
-          content={section.content}
-        />
-      ))}
+        {termsOfUseSections.map((section) => (
+          <PolicyCard
+            key={section.title}
+            title={section.title}
+            content={section.content}
+          />
+        ))}
 
-      <PolicyPageContactSection />
+        <PolicyPageContactSection />
+      </div>
     </main>
   );
 }

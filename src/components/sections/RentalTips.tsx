@@ -6,7 +6,7 @@ import { nanoid } from "nanoid";
 
 export default function RentalTips() {
   return (
-    <section className="px-4 md:px-8 lg:px-12">
+    <section className="px-4">
       <h2 className="text-3xl font-bold text-center mb-8">Tips for Renting</h2>
       <div className="max-w-3xl mx-auto space-y-6">
         {rentalTips.map((tip, index) => (

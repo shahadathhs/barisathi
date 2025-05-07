@@ -37,8 +37,8 @@ export default async function BlogPage({ params }: Props) {
   }
 
   return (
-    <main className="flex flex-col min-h-screen">
-      <article className="container mx-auto max-w-4xl px-4 py-16">
+    <main className="flex flex-col min-h-screen mx-auto max-w-3xl px-4 py-16">
+      <article>
         <Button asChild variant="ghost" size="sm" className="mb-8">
           <Link href="/blogs" className="gap-2">
             <ArrowLeft className="h-4 w-4" />

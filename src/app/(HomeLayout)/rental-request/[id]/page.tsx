@@ -169,7 +169,7 @@ export default function RequestRental() {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto py-10 flex justify-center items-center min-h-[50vh]">
+      <div className="container mx-auto py-14 px-4 flex justify-center items-center min-h-[50vh]">
         <Loader2 className="h-8 w-8 animate-spin" />
       </div>
     );
@@ -177,7 +177,7 @@ export default function RequestRental() {
 
   if (!listing) {
     return (
-      <div className="container mx-auto py-10">
+      <div className="container mx-auto py-16 px-4">
         <Card className="max-w-2xl mx-auto">
           <CardHeader>
             <CardTitle>Property Not Found</CardTitle>
@@ -198,7 +198,7 @@ export default function RequestRental() {
   }
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto py-16 px-4">
       <Button variant="ghost" onClick={handleBackToListing} className="mb-6">
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back to Details Page

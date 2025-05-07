@@ -1,11 +1,11 @@
 // * nav bar
 export const navLinks = [
   { title: "Home", link: "/" },
+  { title: "Rental", link: "/rental-house" },
+  { title: "Blogs", link: "/blogs" },
   { title: "About", link: "/about-us" },
   { title: "Contact", link: "/contact" },
-  { title: "Blogs", link: "/blogs" },
-  { title: "Careers", link: "/careers" },
-  { title: "Rental House", link: "/rental-house" },
+  { title: "Career", link: "/careers" },
 ];
 
 export const authLinks = [
@@ -29,7 +29,7 @@ export const legalLinks = [
 export const contactLinks = [
   { title: "About Us", link: "/about-us" },
   { title: "Contact Us", link: "/contact" },
-  { title: "Careers", link: "/careers" },
+  { title: "Career", link: "/careers" },
 ];
 
 // * Dashboard side bar links based on role

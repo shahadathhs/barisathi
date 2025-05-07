@@ -1,11 +1,9 @@
-
 import { Separator } from "@/components/ui/separator";
 
 export default function PolicyPageContactSection() {
   return (
-    <>
-      <Separator className="my-8 bg-gray-700" />
-      <Separator className="my-8 bg-gray-700" />
+    <div>
+      <Separator className="my-8" />
 
       {/* Contact Section */}
       <section className="mb-8">
@@ -22,6 +20,6 @@ export default function PolicyPageContactSection() {
           .
         </p>
       </section>
-    </>
-  )
+    </div>
+  );
 }

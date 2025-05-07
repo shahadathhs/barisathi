@@ -6,18 +6,20 @@ import { privacyPolicySections } from "@/constant/policy";
 
 export default function PrivacyPolicyPage() {
   return (
-    <main className="min-h-screen py-8 md:py-16 px-4 md:px-8 lg:px-12 max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold mb-6 text-center">Privacy Policy</h1>
+    <main className="min-h-screen py-16 px-4 max-w-3xl mx-auto md:border-l md:border-r">
+      <div className="max-w-xl mx-auto">
+        <h1 className="text-4xl font-bold mb-6 text-center">Privacy Policy</h1>
 
-      {privacyPolicySections.map((section) => (
-        <PolicyCard
-          key={section.title}
-          title={section.title}
-          content={section.content}
-        />
-      ))}
+        {privacyPolicySections.map((section) => (
+          <PolicyCard
+            key={section.title}
+            title={section.title}
+            content={section.content}
+          />
+        ))}
 
-      <PolicyPageContactSection />
+        <PolicyPageContactSection />
+      </div>
     </main>
   );
 }

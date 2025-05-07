@@ -11,7 +11,7 @@ import { nanoid } from "nanoid";
 
 export default function FAQSection() {
   return (
-    <section>
+    <section className="px-4">
       <h2 className="text-3xl font-bold text-center mb-8">
         Frequently Asked Questions
       </h2>

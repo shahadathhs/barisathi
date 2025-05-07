@@ -181,8 +181,8 @@ export default function PostRentalHouse() {
   };
 
   return (
-    <div className="min-h-screen py-8 md:py-16 px-4 md:px-8 lg:px-12 max-w-4xl mx-auto">
-      <Card className="w-full max-w-2xl mx-auto shadow-lg">
+    <div className="min-h-screen py-16 px-4 md:border-l md:border-r max-w-3xl mx-auto">
+      <Card className="w-full max-w-xl mx-auto">
         <CardHeader className="text-center border-b pb-4">
           <CardTitle className="text-2xl">Post a New Rental Property</CardTitle>
           <CardDescription>
