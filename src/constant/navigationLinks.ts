@@ -17,6 +17,7 @@ export const authLinks = [
 export const quickLinks = [
   { title: "Home", link: "/" },
   { title: "Rental House", link: "/rental-house" },
+  { title: "Blog", link: "/blog" },
 ];
 
 export const legalLinks = [
@@ -37,11 +38,13 @@ export const adminLinks = [
   { name: "Listings", href: "/admin/listings" },
   { name: "Requests", href: "/admin/requests" },
   { name: "Users", href: "/admin/users" },
+  { name: "Analytics", href: "/admin/analytics" },
 ];
 
 export const tenantLinks = [
   { name: "Tenant", href: "/tenant" },
   { name: "Requests", href: "/tenant/requests" },
+  { name: "Wishlist", href: "/tenant/wishlist" },
 ];
 
 export const landlordLinks = [
