@@ -9,18 +9,8 @@ import Logo from "../logo/Logo";
 import { ModeToggle } from "../ModeToggle";
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [user, setUser] = useState<IUser | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-
-  // Listen for scroll events to update sticky behavior.
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   // Retrieve the user info.
   useEffect(() => {
@@ -46,14 +36,9 @@ export default function Navbar() {
     window.location.href = "/";
   };
 
-  // Sticky navbar with smooth transition and rounded border.
-  const navClasses = `sticky top-4 z-[9999] bg-white dark:bg-gray-800 transition-all transform ease-in-out duration-500 border rounded-md p-2 lg:p-4 m-4 ${
-    scrolled ? "scale-90" : ""
-  }`;
-
   return (
-    <nav className={navClasses}>
-      <div className="container mx-auto flex items-center justify-between px-2 lg:px-4">
+    <nav className="sticky top-0 z-[9999]">
+      <div className="flex items-center justify-between bg-white dark:bg-gray-800 border-b p-2 lg:p-4">
         {/* Logo */}
         <Logo />
 

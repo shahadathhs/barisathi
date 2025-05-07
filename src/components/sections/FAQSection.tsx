@@ -11,7 +11,7 @@ import { nanoid } from "nanoid";
 
 export default function FAQSection() {
   return (
-    <section className="py-16">
+    <section>
       <h2 className="text-3xl font-bold text-center mb-8">
         Frequently Asked Questions
       </h2>

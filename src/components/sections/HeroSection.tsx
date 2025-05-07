@@ -6,7 +6,7 @@ import SearchSection from "./SearchSection";
 
 export default function HeroSection() {
   return (
-    <div className="space-y-16 pb-16">
+    <div className="space-y-16">
       {/* Hero Banner */}
       <HeroBanner />
 

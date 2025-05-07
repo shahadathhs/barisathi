@@ -55,7 +55,7 @@ export default function FeaturedListings() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {featuredListings?.map((listing) => (
-          <Card key={listing._id} className="overflow-hidden">
+          <Card key={listing._id} className="overflow-hidden pt-0">
             <div className="aspect-video relative">
               <Image
                 src={listing.images[0] || "/placeholder.svg"}
@@ -92,7 +92,7 @@ export default function FeaturedListings() {
                 {listing.description}
               </p>
             </CardContent>
-            <CardFooter className="p-4 pt-0">
+            <CardFooter className="p-4 pt-0 pb-0">
               <Button variant="outline" className="w-full" asChild>
                 <Link href={`/rental-details/${listing._id}`}>View Details</Link>
               </Button>
