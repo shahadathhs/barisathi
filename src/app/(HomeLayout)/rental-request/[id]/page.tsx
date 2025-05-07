@@ -93,7 +93,7 @@ export default function RequestRental() {
 
       try {
         // Fetch listing details
-        const result = await getListingById(params.id as string, token || "");
+        const result = await getListingById(params.id as string);
         if (!result.success) {
           toast("Failed to load property details", {
             description: "Failed to load property details",
@@ -164,7 +164,7 @@ export default function RequestRental() {
   };
 
   const handleBackToListing = () => {
-    router.push(`/rental-listings/${params.id}`);
+    router.push(`/rental-details/${params.id}`);
   };
 
   if (isLoading) {
@@ -201,7 +201,7 @@ export default function RequestRental() {
     <div className="container mx-auto py-10">
       <Button variant="ghost" onClick={handleBackToListing} className="mb-6">
         <ArrowLeft className="mr-2 h-4 w-4" />
-        Back to Listing
+        Back to Details Page
       </Button>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

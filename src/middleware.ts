@@ -5,7 +5,7 @@ import { getUserFromToken } from "./services/auth.service";
 const authOnlyRoutes = ["/login", "/register"];
 
 // Define common routes accessible by any authenticated user.
-const commonRoutes: RegExp[] = [/^\/rental-details/];
+// const commonRoutes: RegExp[] = [/^\/rental-details/];
 
 // Define role-based private route regex patterns.
 const roleBasedRoutes: Record<string, RegExp[]> = {
@@ -39,9 +39,9 @@ export const middleware = async (request: NextRequest) => {
   }
 
   // Allow access to common routes for any authenticated user.
-  if (commonRoutes.some((regex) => regex.test(pathname))) {
-    return NextResponse.next();
-  }
+  // if (commonRoutes.some((regex) => regex.test(pathname))) {
+  //   return NextResponse.next();
+  // }
 
   // Check role-based access for other routes.
   const allowedRoutes = roleBasedRoutes[user.role] || [];
@@ -57,8 +57,8 @@ export const config = {
     "/login",
     "/register",
     "/post-rental-house",
-    "/rental-details",
-    "/rental-details/:path*",
+    // "/rental-details",
+    // "/rental-details/:path*",
     "/rental-request",
     "/rental-request/:path*",
     "/admin",

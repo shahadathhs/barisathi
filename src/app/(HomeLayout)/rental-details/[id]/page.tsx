@@ -20,7 +20,6 @@ import { Separator } from "@/components/ui/separator";
 import { Listing } from "@/interface/listing.interface";
 import { toast } from "sonner";
 import { getListingById } from "@/services/listing.service";
-import { getToken } from "@/services/auth.service";
 
 export default function ListingDetails() {
   const router = useRouter();
@@ -29,21 +28,12 @@ export default function ListingDetails() {
   const [listing, setListing] = useState<Listing | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [token, setToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchToken = async () => {
-      const token = await getToken();
-      if (token) setToken(token);
-    };
-    fetchToken();
-  }, []);
 
   useEffect(() => {
     const fetchListing = async () => {
       setIsLoading(true);
       try {
-        const result = await getListingById(id as string, token || "");
+        const result = await getListingById(id as string);
 
         if (!result.success) {
           toast("Failed to load rental details", {
@@ -66,10 +56,10 @@ export default function ListingDetails() {
     };
 
     // Ensure token and id are available before fetching
-    if (token && id) {
+    if (id) {
       fetchListing();
     }
-  }, [id, token]);
+  }, [id]);
 
   const handleRequestRental = () => {
     router.push(`/rental-request/${id}`);

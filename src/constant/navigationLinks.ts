@@ -2,8 +2,9 @@
 export const navLinks = [
   { title: "Home", link: "/" },
   { title: "About", link: "/about-us" },
-  { title: "Contact Us", link: "/contact" },
-  { title: "About Us", link: "/about-us" },
+  { title: "Contact", link: "/contact" },
+  { title: "Blog", link: "/blog" },
+  { title: "Careers", link: "/careers" },
   { title: "Rental House", link: "/rental-house" },
 ];
 

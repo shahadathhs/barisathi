@@ -88,10 +88,7 @@ export const getFirstThreeListings = async (): Promise<any> => {
   }
 };
 
-export const getListingById = async (
-  id: string,
-  token: string
-): Promise<any> => {
+export const getListingById = async (id: string): Promise<any> => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/listings/${id}`,
@@ -99,7 +96,6 @@ export const getListingById = async (
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
       }
     );
