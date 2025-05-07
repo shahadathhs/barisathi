@@ -106,7 +106,7 @@ export default function AdminEditListing() {
     const fetchListing = async () => {
       setIsLoading(true);
       try {
-        const result = await getListingById(params.id as string, token || "");
+        const result = await getListingById(params.id as string);
         if (!result.success) {
           toast("Failed to load listing details", {
             description: "There was an error loading the listing details.",

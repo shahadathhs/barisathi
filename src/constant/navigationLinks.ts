@@ -3,7 +3,7 @@ export const navLinks = [
   { title: "Home", link: "/" },
   { title: "About", link: "/about-us" },
   { title: "Contact", link: "/contact" },
-  { title: "Blog", link: "/blog" },
+  { title: "Blogs", link: "/blogs" },
   { title: "Careers", link: "/careers" },
   { title: "Rental House", link: "/rental-house" },
 ];
@@ -17,7 +17,7 @@ export const authLinks = [
 export const quickLinks = [
   { title: "Home", link: "/" },
   { title: "Rental House", link: "/rental-house" },
-  { title: "Blog", link: "/blog" },
+  { title: "Blogs", link: "/blogs" },
 ];
 
 export const legalLinks = [
