@@ -20,6 +20,7 @@ import { Separator } from "@/components/ui/separator";
 import { Listing } from "@/interface/listing.interface";
 import { toast } from "sonner";
 import { getListingById } from "@/services/listing.service";
+import AddToWishlist from "@/components/tenant/AddToWishlist";
 
 export default function ListingDetails() {
   const router = useRouter();
@@ -215,6 +216,8 @@ export default function ListingDetails() {
               <Button className="w-full mb-6" onClick={handleRequestRental}>
                 Request Rental
               </Button>
+
+              <AddToWishlist />
 
               <Separator className="mb-4" />
 
