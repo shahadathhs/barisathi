@@ -3,16 +3,15 @@ import { IUser } from "@/interface/auth.interface";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   addToOrRemoveFromWishlist,
   getWishlist,
 } from "@/services/wishlist.service";
 import { Listing } from "@/interface/listing.interface";
 
-export default function AddToWishlist() {
+export default function AddToWishlist({ id }: { id: string }) {
   const [user, setUser] = useState<IUser | null>(null);
-  const { id } = useParams();
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isExisting, setIsExisting] = useState(false);
@@ -96,8 +95,8 @@ export default function AddToWishlist() {
 
   return (
     <Button
-      className="w-full mb-6"
-      variant={isExisting ? "destructive" : "outline"}
+      className="w-full"
+      variant={isExisting ? "destructive" : "secondary"}
       onClick={handleWishlist}
     >
       {isExisting

@@ -27,6 +27,7 @@ import { Slider } from "@/components/ui/slider";
 import { toast } from "sonner";
 import { Listing } from "@/interface/listing.interface";
 import { getAllListings } from "@/services/listing.service";
+import AddToWishlist from "@/components/tenant/AddToWishlist";
 
 export default function RentalHouse() {
   const router = useRouter();
@@ -199,7 +200,7 @@ export default function RentalHouse() {
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {listings.map((listing) => (
-              <Card key={listing._id} className="overflow-hidden">
+              <Card key={listing._id} className="overflow-hidden pt-0">
                 <div className="aspect-video relative">
                   <Image
                     src={
@@ -238,7 +239,7 @@ export default function RentalHouse() {
                     {listing.description}
                   </p>
                 </CardContent>
-                <CardFooter className="p-4 pt-0 flex gap-2">
+                <CardFooter className="p-4 pb-0 pt-0 grid grid-cols-2 gap-2">
                   <Button
                     variant="outline"
                     className="flex-1"
@@ -252,6 +253,10 @@ export default function RentalHouse() {
                   >
                     Request Rental
                   </Button>
+
+                  <div className="col-span-2">
+                    <AddToWishlist id={listing?._id} />
+                  </div>
                 </CardFooter>
               </Card>
             ))}

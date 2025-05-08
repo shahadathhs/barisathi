@@ -71,7 +71,7 @@ export default function Wishlist() {
     }
   }, [token, router]);
 
-  const handleWishlist = async (listingId: string) => {
+  const handleRemoveFromWishlist = async (listingId: string) => {
     try {
       setIsRemoving(true);
       const result = await addToOrRemoveFromWishlist(

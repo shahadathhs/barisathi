@@ -217,7 +217,9 @@ export default function ListingDetails() {
                 Request Rental
               </Button>
 
-              <AddToWishlist />
+              <div className="w-full mb-6">
+                <AddToWishlist id={listing._id} />
+              </div>
 
               <Separator className="mb-4" />
 
