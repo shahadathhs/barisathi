@@ -6,6 +6,19 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+  Tooltip as ReTooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 export type Distribution = {
   _id: string;
@@ -99,5 +112,146 @@ export default function Analytics() {
     );
   }
 
-  return <div>page</div>;
+  // Destructure with optional chaining
+  const users = analytics?.userAnalytics;
+  const bookings = analytics?.bookingAnalytics;
+  const listings = analytics?.listingAnalytics;
+  const totals = analytics?.totalCountAnalytics;
+
+  const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#8dd1e1"];
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Totals */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Totals</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>Total Users: {totals?.totalUsers}</p>
+          <p>Total Bookings: {totals?.totalBookings}</p>
+          <p>Total Listings: {totals?.totalListings}</p>
+        </CardContent>
+      </Card>
+
+      {/* Users Role Distribution */}
+      <Card>
+        <CardHeader>
+          <CardTitle>User Roles</CardTitle>
+        </CardHeader>
+        <CardContent style={{ height: 250 }}>
+          <ResponsiveContainer>
+            <PieChart>
+              <Pie
+                data={users?.rolesDistribution ?? []}
+                dataKey="count"
+                nameKey="_id"
+                outerRadius={80}
+                fill="#8884d8"
+                label
+              >
+                {(users?.rolesDistribution ?? []).map((entry, index) => (
+                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Legend />
+              <ReTooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* Booking Status Distribution */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Booking Status</CardTitle>
+        </CardHeader>
+        <CardContent style={{ height: 250 }}>
+          <ResponsiveContainer>
+            <PieChart>
+              <Pie
+                data={bookings?.statusDistribution ?? []}
+                dataKey="count"
+                nameKey="_id"
+                outerRadius={80}
+                fill="#82ca9d"
+                label
+              >
+                {(bookings?.statusDistribution ?? []).map((entry, index) => (
+                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Legend />
+              <ReTooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* Monthly Bookings */}
+      <Card className="md:col-span-2">
+        <CardHeader>
+          <CardTitle>Monthly Bookings</CardTitle>
+        </CardHeader>
+        <CardContent style={{ height: 300 }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={bookings?.monthlyBookings ?? []}>
+              <XAxis dataKey="month" />
+              <YAxis />
+              <ReTooltip />
+              <Bar dataKey="count" fill="#ffc658" />
+            </BarChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* Listings Bedrooms Distribution */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Bedrooms Distribution</CardTitle>
+        </CardHeader>
+        <CardContent style={{ height: 250 }}>
+          <ResponsiveContainer>
+            <BarChart
+              data={
+                listings?.bedroomsDistribution.map((item) => ({
+                  name: item._id,
+                  count: item.count,
+                })) ?? []
+              }
+            >
+              <XAxis dataKey="name" />
+              <YAxis />
+              <ReTooltip />
+              <Bar dataKey="count" fill="#ff8042" />
+            </BarChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* Listings Location Distribution */}
+      <Card className="md:col-span-2">
+        <CardHeader>
+          <CardTitle>Listing Locations</CardTitle>
+        </CardHeader>
+        <CardContent style={{ height: 300 }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={
+                listings?.locationDistribution.map((item) => ({
+                  name: item._id,
+                  count: item.count,
+                })) ?? []
+              }
+            >
+              <XAxis dataKey="name" />
+              <YAxis />
+              <ReTooltip />
+              <Bar dataKey="count" />
+            </BarChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }
