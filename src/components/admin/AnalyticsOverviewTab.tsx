@@ -14,7 +14,15 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "../ui/chart";
-import { Bar, Pie, BarChart, PieChart, XAxis, YAxis } from "recharts";
+import {
+  ResponsiveContainer,
+  Bar,
+  Pie,
+  BarChart,
+  PieChart,
+  XAxis,
+  YAxis,
+} from "recharts";
 import {
   BookingAnalytics,
   UserAnalytics,
@@ -51,6 +59,7 @@ export default function AnalyticsOverviewTab({
   return (
     <TabsContent value="overview" className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* User Roles Distribution */}
         <Card className="shadow-none">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg font-medium flex items-center gap-2">
@@ -61,7 +70,7 @@ export default function AnalyticsOverviewTab({
           </CardHeader>
           <CardContent className="p-0">
             <ChartContainer
-              className="h-[200px]"
+              className="h-[200px] w-full overflow-x-auto"
               config={{
                 admin: { label: "Admin", color: "hsl(0, 70%, 60%)" },
                 landlord: { label: "Landlord", color: "hsl(40, 70%, 60%)" },
@@ -69,35 +78,38 @@ export default function AnalyticsOverviewTab({
                 guest: { label: "Guest", color: "hsl(120, 70%, 60%)" },
               }}
             >
-              <PieChart>
-                <Pie
-                  data={userRolesData}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={60}
-                  innerRadius={30}
-                  paddingAngle={2}
-                  label
-                />
-                <ChartTooltip
-                  content={
-                    <ChartTooltipContent
-                      formatter={(value, name) => [`${value} `, name]}
-                    />
-                  }
-                />
-                <ChartLegend
-                  content={<ChartLegendContent />}
-                  verticalAlign="bottom"
-                  align="center"
-                />
-              </PieChart>
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={userRolesData}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={60}
+                    innerRadius={30}
+                    paddingAngle={2}
+                    label
+                  />
+                  <ChartTooltip
+                    content={
+                      <ChartTooltipContent
+                        formatter={(value, name) => [`${value} `, name]}
+                      />
+                    }
+                  />
+                  <ChartLegend
+                    content={<ChartLegendContent />}
+                    verticalAlign="bottom"
+                    align="center"
+                  />
+                </PieChart>
+              </ResponsiveContainer>
             </ChartContainer>
           </CardContent>
         </Card>
 
+        {/* Booking Status Distribution */}
         <Card className="shadow-none">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg font-medium flex items-center gap-2">
@@ -106,54 +118,48 @@ export default function AnalyticsOverviewTab({
             </CardTitle>
             <CardDescription>Distribution of booking statuses</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-0">
             <ChartContainer
-              className="h-[200px]"
+              className="h-[200px] w-full overflow-x-auto"
               config={{
                 pending: { label: "Pending", color: "hsl(40, 70%, 60%)" },
-                confirmed: {
-                  label: "Confirmed",
-                  color: "hsl(120, 70%, 60%)",
-                },
-                cancelled: {
-                  label: "Cancelled",
-                  color: "hsl(0, 70%, 60%)",
-                },
-                rejected: {
-                  label: "Rejected",
-                  color: "hsl(200, 70%, 60%)",
-                },
+                confirmed: { label: "Confirmed", color: "hsl(120, 70%, 60%)" },
+                cancelled: { label: "Cancelled", color: "hsl(0, 70%, 60%)" },
+                rejected: { label: "Rejected", color: "hsl(200, 70%, 60%)" },
               }}
             >
-              <PieChart>
-                <Pie
-                  data={bookingStatusData}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={60}
-                  innerRadius={30}
-                  paddingAngle={2}
-                  label
-                />
-                <ChartTooltip
-                  content={
-                    <ChartTooltipContent
-                      formatter={(value, name) => [`${value} `, name]}
-                    />
-                  }
-                />
-                <ChartLegend
-                  content={<ChartLegendContent />}
-                  verticalAlign="bottom"
-                  align="center"
-                />
-              </PieChart>
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={bookingStatusData}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={60}
+                    innerRadius={30}
+                    paddingAngle={2}
+                    label
+                  />
+                  <ChartTooltip
+                    content={
+                      <ChartTooltipContent
+                        formatter={(value, name) => [`${value} `, name]}
+                      />
+                    }
+                  />
+                  <ChartLegend
+                    content={<ChartLegendContent />}
+                    verticalAlign="bottom"
+                    align="center"
+                  />
+                </PieChart>
+              </ResponsiveContainer>
             </ChartContainer>
           </CardContent>
         </Card>
 
+        {/* Monthly Bookings Trend */}
         <Card className="shadow-none">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg font-medium flex items-center gap-2">
@@ -164,28 +170,30 @@ export default function AnalyticsOverviewTab({
               Booking trends over the past months
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-0">
             <ChartContainer
-              className="h-[200px]"
+              className="h-[200px] w-full overflow-x-auto"
               config={{
                 value: { label: "Bookings", color: "hsl(220, 70%, 60%)" },
               }}
             >
-              <BarChart
-                data={monthlyBookingsData}
-                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-              >
-                <XAxis dataKey="name" />
-                <YAxis />
-                <ChartTooltip
-                  content={
-                    <ChartTooltipContent
-                      formatter={(value) => [`${value} bookings`]}
-                    />
-                  }
-                />
-                <Bar dataKey="value" radius={[4, 4, 0, 0]} />
-              </BarChart>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={monthlyBookingsData}
+                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                >
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <ChartTooltip
+                    content={
+                      <ChartTooltipContent
+                        formatter={(value) => [`${value} bookings`]}
+                      />
+                    }
+                  />
+                  <Bar dataKey="value" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
             </ChartContainer>
           </CardContent>
         </Card>
