@@ -4,7 +4,10 @@ import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useParams, useRouter } from "next/navigation";
-import { getWishlist } from "@/services/wishlist.service";
+import {
+  addToOrRemoveFromWishlist,
+  getWishlist,
+} from "@/services/wishlist.service";
 import { Listing } from "@/interface/listing.interface";
 
 export default function AddToWishlist() {
@@ -13,6 +16,7 @@ export default function AddToWishlist() {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isExisting, setIsExisting] = useState(false);
+  const [isAddingOrRemoving, setIsAddingOrRemoving] = useState(false);
   const router = useRouter();
   console.log("User:", user, "Token:", token);
 
@@ -62,16 +66,47 @@ export default function AddToWishlist() {
     }
   }, [token, router]);
 
-  const handleWishlist = () => {
-    console.log("Add to wishlist");
+  const handleWishlist = async () => {
+    try {
+      setIsAddingOrRemoving(true);
+      const result = await addToOrRemoveFromWishlist(
+        id as string,
+        isExisting ? "remove" : "add",
+        token as string
+      );
+
+      if (result.success) {
+        setIsExisting(!isExisting);
+      }
+
+      console.log("Result:", result);
+    } catch (error) {
+      console.error("Error:", error);
+      toast("Failed to load property details", {
+        description: "Failed to load property details",
+        icon: "🚨",
+      });
+    } finally {
+      setIsAddingOrRemoving(false);
+    }
   };
 
   if (!user || !user.role || user.role !== "tenant" || !token || isLoading)
     return null;
 
   return (
-    <Button className="w-full mb-6" onClick={handleWishlist}>
-      {isExisting ? "Remove from wishlist" : "Add to wishlist"}
+    <Button
+      className="w-full mb-6"
+      variant={isExisting ? "destructive" : "outline"}
+      onClick={handleWishlist}
+    >
+      {isExisting
+        ? isAddingOrRemoving
+          ? "Removing..."
+          : "Remove from wishlist"
+        : isAddingOrRemoving
+          ? "Adding..."
+          : "Add to wishlist"}
     </Button>
   );
 }
