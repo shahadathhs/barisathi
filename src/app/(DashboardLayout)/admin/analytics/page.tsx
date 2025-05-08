@@ -26,15 +26,19 @@ import {
   ArrowUpCircle,
   BarChart3,
   Building,
-  Calendar,
   Home,
   Loader2,
-  PieChartIcon,
   Users,
 } from "lucide-react";
 import { toast } from "sonner";
-import SummaryCard from "@/components/admin/SummaryCard";
-import { AdminAnalytics } from "@/interface/analytics.interface";
+import {
+  AdminAnalytics,
+  BookingAnalytics,
+  TotalCountAnalytics,
+  UserAnalytics,
+} from "@/interface/analytics.interface";
+import AnalyticsSummary from "@/components/admin/AnalyticsSummary";
+import AnalyticsOverviewTab from "@/components/admin/AnalyticsOverviewTab";
 
 export default function Analytics() {
   const [token, setToken] = useState<string | null>(null);
@@ -98,27 +102,6 @@ export default function Analytics() {
   const listings = analytics?.listingAnalytics;
   const totals = analytics?.totalCountAnalytics;
 
-  // Prepare data for charts
-  const userRolesData =
-    users?.rolesDistribution.map((item, index) => ({
-      name: item._id,
-      value: item.count,
-      fill: `hsl(${index * 40}, 70%, 60%)`,
-    })) || [];
-
-  const bookingStatusData =
-    bookings?.statusDistribution.map((item, index) => ({
-      name: item._id,
-      value: item.count,
-      fill: `hsl(${index * 40 + 120}, 70%, 60%)`,
-    })) || [];
-
-  const monthlyBookingsData =
-    bookings?.monthlyBookings.map((item) => ({
-      name: item.month,
-      value: item.count,
-    })) || [];
-
   const bedroomsData =
     listings?.bedroomsDistribution.map((item) => ({
       name: item._id,
@@ -146,35 +129,7 @@ export default function Analytics() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <SummaryCard
-          title="Total Users"
-          value={totals?.totalUsers || 0}
-          icon={<Users className="h-5 w-5" />}
-          description="Registered users on the platform"
-          trend={"+12% from last month"}
-          color="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900"
-          iconColor="text-blue-500"
-        />
-        <SummaryCard
-          title="Total Bookings"
-          value={totals?.totalBookings || 0}
-          icon={<Calendar className="h-5 w-5" />}
-          description="Completed and pending bookings"
-          trend={"+8% from last month"}
-          color="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900"
-          iconColor="text-purple-500"
-        />
-        <SummaryCard
-          title="Total Listings"
-          value={totals?.totalListings || 0}
-          icon={<Building className="h-5 w-5" />}
-          description="Active property listings"
-          trend={"+5% from last month"}
-          color="bg-gradient-to-br from-emerald-50 to-emerald-100 dark:from-emerald-950 dark:to-emerald-900"
-          iconColor="text-emerald-500"
-        />
-      </div>
+      <AnalyticsSummary totals={totals as TotalCountAnalytics} />
 
       {/* Tabs for different analytics sections */}
       <Tabs defaultValue="overview" className="w-full">
@@ -194,153 +149,10 @@ export default function Analytics() {
         </TabsList>
 
         {/* Overview Tab */}
-        <TabsContent value="overview" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg font-medium flex items-center gap-2">
-                  <PieChartIcon className="h-5 w-5 text-primary" />
-                  User Roles Distribution
-                </CardTitle>
-                <CardDescription>Breakdown of users by role</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ChartContainer
-                  className="h-[300px]"
-                  config={{
-                    admin: { label: "Admin", color: "hsl(0, 70%, 60%)" },
-                    landlord: { label: "Landlord", color: "hsl(40, 70%, 60%)" },
-                    tenant: { label: "Tenant", color: "hsl(80, 70%, 60%)" },
-                    guest: { label: "Guest", color: "hsl(120, 70%, 60%)" },
-                  }}
-                >
-                  <PieChart>
-                    <Pie
-                      data={userRolesData}
-                      dataKey="value"
-                      nameKey="name"
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={100}
-                      innerRadius={60}
-                      paddingAngle={2}
-                      label
-                    />
-                    <ChartTooltip
-                      content={
-                        <ChartTooltipContent
-                          formatter={(value, name) => [`${value} users`, name]}
-                        />
-                      }
-                    />
-                    <ChartLegend
-                      content={<ChartLegendContent />}
-                      verticalAlign="bottom"
-                      align="center"
-                    />
-                  </PieChart>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg font-medium flex items-center gap-2">
-                  <PieChartIcon className="h-5 w-5 text-primary" />
-                  Booking Status
-                </CardTitle>
-                <CardDescription>
-                  Distribution of booking statuses
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ChartContainer
-                  className="h-[300px]"
-                  config={{
-                    pending: { label: "Pending", color: "hsl(40, 70%, 60%)" },
-                    confirmed: {
-                      label: "Confirmed",
-                      color: "hsl(120, 70%, 60%)",
-                    },
-                    cancelled: {
-                      label: "Cancelled",
-                      color: "hsl(0, 70%, 60%)",
-                    },
-                    completed: {
-                      label: "Completed",
-                      color: "hsl(200, 70%, 60%)",
-                    },
-                  }}
-                >
-                  <PieChart>
-                    <Pie
-                      data={bookingStatusData}
-                      dataKey="value"
-                      nameKey="name"
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={100}
-                      innerRadius={60}
-                      paddingAngle={2}
-                      label
-                    />
-                    <ChartTooltip
-                      content={
-                        <ChartTooltipContent
-                          formatter={(value, name) => [
-                            `${value} bookings`,
-                            name,
-                          ]}
-                        />
-                      }
-                    />
-                    <ChartLegend
-                      content={<ChartLegendContent />}
-                      verticalAlign="bottom"
-                      align="center"
-                    />
-                  </PieChart>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-          </div>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg font-medium flex items-center gap-2">
-                <BarChart3 className="h-5 w-5 text-primary" />
-                Monthly Bookings
-              </CardTitle>
-              <CardDescription>
-                Booking trends over the past months
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ChartContainer
-                className="h-[300px]"
-                config={{
-                  value: { label: "Bookings", color: "hsl(220, 70%, 60%)" },
-                }}
-              >
-                <BarChart
-                  data={monthlyBookingsData}
-                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                >
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <ChartTooltip
-                    content={
-                      <ChartTooltipContent
-                        formatter={(value, name) => [`${value} bookings`, name]}
-                      />
-                    }
-                  />
-                  <Bar dataKey="value" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ChartContainer>
-            </CardContent>
-          </Card>
-        </TabsContent>
+        <AnalyticsOverviewTab
+          users={users as UserAnalytics}
+          bookings={bookings as BookingAnalytics}
+        />
 
         {/* Users Tab */}
         <TabsContent value="users" className="space-y-6">
