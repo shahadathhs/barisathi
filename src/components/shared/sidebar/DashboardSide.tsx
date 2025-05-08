@@ -35,7 +35,7 @@ export default function DashboardSide() {
       {/* Empty title bar to avoid console error */}
       <SheetTitle />
       <SheetTrigger asChild>
-        <Button variant="outline" className="m-4">
+        <Button variant="outline" size={"icon"} className="my-3 ml-2">
           <Menu className="w-5 h-5" />
         </Button>
       </SheetTrigger>

@@ -13,7 +13,7 @@ export default function DashboardLayout({
       <main className="flex-1 p-3 h-screen">
         <div className="border rounded h-full flex flex-col">
           <DashboardNavbar />
-          <div className="p-3 flex-1 overflow-y-scroll">{children}</div>
+          <div className="p-2 md:p-3 flex-1 overflow-y-scroll">{children}</div>
         </div>
       </main>
     </div>
