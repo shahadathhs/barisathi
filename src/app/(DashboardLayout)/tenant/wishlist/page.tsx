@@ -98,7 +98,7 @@ export default function Wishlist() {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || !token) {
     return (
       <div className="container mx-auto py-10 flex justify-center items-center min-h-[50vh]">
         <Loader2 className="h-8 w-8 animate-spin" />
