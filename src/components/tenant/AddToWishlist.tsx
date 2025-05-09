@@ -1,111 +1,122 @@
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
 import { getCurrentUser, getToken } from "@/services/auth.service";
 import { IUser } from "@/interface/auth.interface";
-import { Button } from "../ui/button";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import {
   addToOrRemoveFromWishlist,
   getWishlist,
 } from "@/services/wishlist.service";
 import { Listing } from "@/interface/listing.interface";
+import { Button } from "../ui/button";
+import { Loader2 } from "lucide-react";
 
 export default function AddToWishlist({ id }: { id: string }) {
   const [user, setUser] = useState<IUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isExisting, setIsExisting] = useState(false);
-  const [isAddingOrRemoving, setIsAddingOrRemoving] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const router = useRouter();
-  console.log("User:", user, "Token:", token);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    const fetchUserToken = async () => {
-      const user = await getCurrentUser();
-      const tkn = await getToken();
-      if (user && tkn) {
-        setUser(user);
-        setToken(tkn);
-      }
-    };
-    fetchUserToken();
+    setIsClient(true);
   }, []);
 
-  // Fetch listing details
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const currentUser = await getCurrentUser();
+        const currentToken = await getToken();
+
+        if (currentUser && currentToken) {
+          setUser(currentUser);
+          setToken(currentToken);
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to fetch user details.");
+      }
+    };
+
+    init();
+  }, []);
+
   useEffect(() => {
     const fetchWishlist = async () => {
       setIsLoading(true);
-
       try {
-        // Fetch listing details
         const result = await getWishlist(token as string);
-
-        console.log("Result:", result);
-        if (result.success) {
-          const listings = result?.data?.listings;
-          const isExisting = listings.some(
-            (listing: Listing) => listing._id === id
-          );
-          setIsExisting(isExisting);
-        }
-        // * set isExisting state
+        const listings = result?.data?.listings || [];
+        const exists = listings.some((listing: Listing) => listing._id === id);
+        setIsExisting(exists);
       } catch (error) {
-        console.error("Error:", error);
-        toast("Failed to load property details", {
-          description: "Failed to load property details",
-          icon: "🚨",
-        });
+        console.error("Wishlist fetch error:", error);
+        toast.error("Failed to load wishlist.");
       } finally {
         setIsLoading(false);
       }
     };
 
-    if (token) {
-      fetchWishlist();
-    }
-  }, [token, router]);
+    if (token) fetchWishlist();
+  }, [token, id, router]);
 
   const handleWishlist = async () => {
+    setIsProcessing(true);
     try {
-      setIsAddingOrRemoving(true);
-      const result = await addToOrRemoveFromWishlist(
-        id as string,
-        isExisting ? "remove" : "add",
-        token as string
-      );
-
+      const action = isExisting ? "remove" : "add";
+      const result = await addToOrRemoveFromWishlist(id, action, token!);
       if (result.success) {
-        setIsExisting(!isExisting);
+        setIsExisting((prev) => !prev);
+        toast.success(
+          isExisting ? "Removed from wishlist" : "Added to wishlist"
+        );
       }
-
-      console.log("Result:", result);
     } catch (error) {
-      console.error("Error:", error);
-      toast("Failed to load property details", {
-        description: "Failed to load property details",
-        icon: "🚨",
-      });
+      console.error("Wishlist action error:", error);
+      toast.error("Failed to update wishlist.");
     } finally {
-      setIsAddingOrRemoving(false);
+      setIsProcessing(false);
     }
   };
 
-  if (!user || !user.role || user.role !== "tenant" || !token || isLoading)
-    return null;
+  if (!isClient) {
+    return (
+      <div className="flex justify-center items-center py-2">
+        <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+        <span className="ml-2 text-sm text-muted-foreground">Loading...</span>
+      </div>
+    );
+  }
+
+  if (!user || !token || user.role !== "tenant") return null;
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-2">
+        <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+        <span className="ml-2 text-sm text-muted-foreground">Loading...</span>
+      </div>
+    );
+  }
 
   return (
     <Button
       className="w-full"
       variant={isExisting ? "destructive" : "secondary"}
+      disabled={isProcessing}
       onClick={handleWishlist}
     >
+      {isProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
       {isExisting
-        ? isAddingOrRemoving
+        ? isProcessing
           ? "Removing..."
-          : "Remove from wishlist"
-        : isAddingOrRemoving
+          : "Remove from Wishlist"
+        : isProcessing
           ? "Adding..."
-          : "Add to wishlist"}
+          : "Add to Wishlist"}
     </Button>
   );
 }
