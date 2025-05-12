@@ -1,3 +1,10 @@
+import one from "@/assets/blogs/1.jpeg";
+import two from "@/assets/blogs/2.jpeg";
+import three from "@/assets/blogs/3.jpeg";
+import four from "@/assets/blogs/4.jpeg";
+import five from "@/assets/blogs/5.jpeg";
+import six from "@/assets/blogs/6.jpeg";
+
 export type Blog = {
   id: string
   title: string
@@ -7,7 +14,8 @@ export type Blog = {
   date: string
   author: string
   authorRole: string
-  image: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  image: any
   category: "tenant" | "landlord" | "general"
 }
 
@@ -67,7 +75,7 @@ By following these tips, you'll be well-prepared for your first rental experienc
     date: "2023-11-15",
     author: "Sarah Johnson",
     authorRole: "Tenant Advisor",
-    image: "/placeholder.png?height=400&width=600",
+    image: one,
     category: "tenant",
   },
   {
@@ -147,7 +155,7 @@ By implementing these maintenance strategies, you'll protect your investment, re
     date: "2023-10-22",
     author: "Michael Chen",
     authorRole: "Property Management Specialist",
-    image: "/placeholder.png?height=400&width=600",
+    image: two,
     category: "landlord",
   },
   {
@@ -242,7 +250,7 @@ Understanding these regulations helps create fair and legally compliant rental r
     date: "2023-09-18",
     author: "Jennifer Martinez",
     authorRole: "Housing Policy Analyst",
-    image: "/placeholder.png?height=400&width=600",
+    image: three,
     category: "general",
   },
   {
@@ -338,7 +346,7 @@ By following these guidelines, you'll create rental listings that stand out from
     date: "2023-08-05",
     author: "Robert Williams",
     authorRole: "Marketing Specialist",
-    image: "/placeholder.png?height=400&width=600",
+    image:four,
     category: "landlord",
   },
   {
@@ -430,7 +438,7 @@ With thoughtful communication and mutual respect, roommate relationships can evo
     date: "2023-07-12",
     author: "Aisha Patel",
     authorRole: "Community Living Specialist",
-    image: "/placeholder.png?height=400&width=600",
+    image: five,
     category: "tenant",
   },
   {
@@ -525,7 +533,7 @@ By strategically implementing these smart home technologies, landlords can creat
     date: "2023-06-20",
     author: "David Thompson",
     authorRole: "PropTech Consultant",
-    image: "/placeholder.png?height=400&width=600",
+    image: six,
     category: "landlord",
   },
 ]

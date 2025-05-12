@@ -1,13 +1,7 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { getUserRole, loginUser } from "@/services/auth.service";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -16,11 +10,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import Link from "next/link";
-import { toast } from "sonner";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { UserIcon, HomeIcon, BuildingIcon } from "lucide-react";
+import { getUserRole, loginUser } from "@/services/auth.service";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { BuildingIcon, HomeIcon, UserIcon } from "lucide-react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 // Validation Schema
 const loginSchema = z.object({
@@ -82,7 +82,9 @@ function LoginContent() {
       if (redirectPath) {
         router.push(redirectPath);
       } else {
-        router.push(`/${userRole}`);
+        if (userRole === "admin") router.push("/admin/analytics");
+        else if (userRole === "tenant") router.push("/tenant/requests");
+        else if (userRole === "landlord") router.push("/landlord/listings");
       }
     } else {
       toast.error(response?.message || "Login failed. Please try again.");
@@ -105,7 +107,9 @@ function LoginContent() {
       if (redirectPath) {
         router.push(redirectPath);
       } else {
-        router.push(`/${role}`);
+        if (role === "admin") router.push("/admin/analytics");
+        else if (role === "tenant") router.push("/tenant/requests");
+        else if (role === "landlord") router.push("/landlord/listings");
       }
     } else {
       toast.error(response?.message || "Login failed. Please try again.");

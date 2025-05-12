@@ -34,7 +34,7 @@ export const contactLinks = [
 
 // * Dashboard side bar links based on role
 export const adminLinks = [
-  { name: "Admin", href: "/admin" },
+  { name: "Profile", href: "/admin" },
   { name: "Analytics", href: "/admin/analytics" },
   { name: "Listings", href: "/admin/listings" },
   { name: "Requests", href: "/admin/requests" },
@@ -42,13 +42,13 @@ export const adminLinks = [
 ];
 
 export const tenantLinks = [
-  { name: "Tenant", href: "/tenant" },
+  { name: "Profile", href: "/tenant" },
   { name: "Requests", href: "/tenant/requests" },
   { name: "Wishlist", href: "/tenant/wishlist" },
 ];
 
 export const landlordLinks = [
-  { name: "Landlord", href: "/landlord" },
+  { name: "Profile", href: "/landlord" },
   { name: "Listings", href: "/landlord/listings" },
   { name: "Requests", href: "/landlord/requests" },
 ];
