@@ -1,9 +1,9 @@
-import one from "@/assets/blogs/1.jpeg";
-import two from "@/assets/blogs/2.jpeg";
-import three from "@/assets/blogs/3.jpeg";
-import four from "@/assets/blogs/4.jpeg";
-import five from "@/assets/blogs/5.jpeg";
-import six from "@/assets/blogs/6.jpeg";
+import one from "@/assets/blogs/1.jpg";
+import two from "@/assets/blogs/2.jpg";
+import three from "@/assets/blogs/3.jpg";
+import four from "@/assets/blogs/4.jpg";
+import five from "@/assets/blogs/5.jpg";
+import six from "@/assets/blogs/6.jpg";
 
 export type Blog = {
   id: string
